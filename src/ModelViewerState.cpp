@@ -36,37 +36,37 @@ ModelViewerState::ModelViewerState(const std::shared_ptr<FiniteStateMachine>& fi
    configureLights(mGroundShader);
 
    // Load the diffuse texture of the animated character
-   mDiffuseTexture = ResourceManager<Texture>().loadUnmanagedResource<TextureLoader>("resources/models/woman/woman.png");
+   mCharacterTexture = ResourceManager<Texture>().loadUnmanagedResource<TextureLoader>("resources/models/woman/woman.png");
 
    // Load the animated character
    cgltf_data* data        = LoadGLTFFile("resources/models/woman/woman.gltf");
-   mSkeleton               = LoadSkeleton(data);
-   mAnimatedMeshes         = LoadAnimatedMeshes(data);
+   mCharacterSkeleton      = LoadSkeleton(data);
+   mCharacterMeshes        = LoadAnimatedMeshes(data);
    std::vector<Clip> clips = LoadClips(data);
    FreeGLTFFile(data);
 
    // Rearrange the skeleton
-   JointMap jointMap = RearrangeSkeleton(mSkeleton);
+   JointMap jointMap = RearrangeSkeleton(mCharacterSkeleton);
 
    // Rearrange the meshes
    for (unsigned int meshIndex = 0,
-        numMeshes = static_cast<unsigned int>(mAnimatedMeshes.size());
+        numMeshes = static_cast<unsigned int>(mCharacterMeshes.size());
         meshIndex < numMeshes;
         ++meshIndex)
    {
-      RearrangeMesh(mAnimatedMeshes[meshIndex], jointMap);
+      RearrangeMesh(mCharacterMeshes[meshIndex], jointMap);
    }
 
    // Optimize the clips, rearrange them and get their names
-   mClips.resize(clips.size());
+   mCharacterClips.resize(clips.size());
    for (unsigned int clipIndex = 0,
         numClips = static_cast<unsigned int>(clips.size());
         clipIndex < numClips;
         ++clipIndex)
    {
-      mClips[clipIndex] = OptimizeClip(clips[clipIndex]);
-      RearrangeFastClip(mClips[clipIndex], jointMap);
-      mClipNames += (mClips[clipIndex].GetName() + '\0');
+      mCharacterClips[clipIndex] = OptimizeClip(clips[clipIndex]);
+      RearrangeFastClip(mCharacterClips[clipIndex], jointMap);
+      mCharacterClipNames += (mCharacterClips[clipIndex].GetName() + '\0');
    }
 
    // Configure the VAOs of the animated meshes
@@ -76,15 +76,15 @@ ModelViewerState::ModelViewerState(const std::shared_ptr<FiniteStateMachine>& fi
    int weightsAttribLocOfAnimatedShader    = mAnimatedMeshShader->getAttributeLocation("weights");
    int influencesAttribLocOfAnimatedShader = mAnimatedMeshShader->getAttributeLocation("joints");
    for (unsigned int i = 0,
-        size = static_cast<unsigned int>(mAnimatedMeshes.size());
+        size = static_cast<unsigned int>(mCharacterMeshes.size());
         i < size;
         ++i)
    {
-      mAnimatedMeshes[i].ConfigureVAO(positionsAttribLocOfAnimatedShader,
-                                      normalsAttribLocOfAnimatedShader,
-                                      texCoordsAttribLocOfAnimatedShader,
-                                      weightsAttribLocOfAnimatedShader,
-                                      influencesAttribLocOfAnimatedShader);
+      mCharacterMeshes[i].ConfigureVAO(positionsAttribLocOfAnimatedShader,
+                                       normalsAttribLocOfAnimatedShader,
+                                       texCoordsAttribLocOfAnimatedShader,
+                                       weightsAttribLocOfAnimatedShader,
+                                       influencesAttribLocOfAnimatedShader);
    }
 
    // Load the ground
@@ -113,7 +113,7 @@ ModelViewerState::ModelViewerState(const std::shared_ptr<FiniteStateMachine>& fi
    initializeState();
 
    // Initialize the bones of the skeleton viewer
-   mSkeletonViewer.InitializeBones(mAnimationData.animatedPose);
+   mSkeletonViewer.InitializeBones(mPose);
 }
 
 void ModelViewerState::initializeState()
@@ -121,13 +121,13 @@ void ModelViewerState::initializeState()
    mPause = false;
 
    // Set the initial clip
-   unsigned int numClips = static_cast<unsigned int>(mClips.size());
+   unsigned int numClips = static_cast<unsigned int>(mCharacterClips.size());
    for (unsigned int clipIndex = 0; clipIndex < numClips; ++clipIndex)
    {
-      if (mClips[clipIndex].GetName() == "Walking")
+      if (mCharacterClips[clipIndex].GetName() == "Walking")
       {
          mSelectedClip = clipIndex;
-         mAnimationData.currentClipIndex = clipIndex;
+         mCurrentClipIndex = clipIndex;
          break;
       }
    }
@@ -147,13 +147,13 @@ void ModelViewerState::initializeState()
 #endif
 
    // Set the initial pose
-   mAnimationData.animatedPose = mSkeleton.GetRestPose();
+   mPose = mCharacterSkeleton.GetRestPose();
 
    // Set the model transform
-   mAnimationData.modelTransform = Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(1.0f));
+   mModelTransform = Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(1.0f));
 
    // Reset the track visualizer
-   mTrackVisualizer.setTracks(mClips[mAnimationData.currentClipIndex].GetTransformTracks());
+   mTrackVisualizer.setTracks(mCharacterClips[mCurrentClipIndex].GetTransformTracks());
 }
 
 void ModelViewerState::enter()
@@ -231,37 +231,37 @@ void ModelViewerState::update(float deltaTime)
       return;
    }
 
-   if (mAnimationData.currentClipIndex != mSelectedClip)
+   if (mCurrentClipIndex != mSelectedClip)
    {
-      mAnimationData.currentClipIndex = mSelectedClip;
-      mAnimationData.animatedPose     = mSkeleton.GetRestPose();
-      mAnimationData.playbackTime     = 0.0f;
+      mCurrentClipIndex = mSelectedClip;
+      mPose             = mCharacterSkeleton.GetRestPose();
+      mPlaybackTime     = 0.0f;
 
       // Reset the track visualizer
-      mTrackVisualizer.setTracks(mClips[mAnimationData.currentClipIndex].GetTransformTracks());
+      mTrackVisualizer.setTracks(mCharacterClips[mCurrentClipIndex].GetTransformTracks());
    }
 
    // Sample the clip to get the animated pose
-   FastClip& currClip = mClips[mAnimationData.currentClipIndex];
-   mAnimationData.playbackTime = currClip.Sample(mAnimationData.animatedPose, mAnimationData.playbackTime + (deltaTime * mSelectedPlaybackSpeed));
+   FastClip& currClip = mCharacterClips[mCurrentClipIndex];
+   mPlaybackTime = currClip.Sample(mPose, mPlaybackTime + (deltaTime * mSelectedPlaybackSpeed));
 
    // Get the palette of the animated pose
-   mAnimationData.animatedPose.GetMatrixPalette(mAnimationData.animatedPosePalette);
+   mPose.GetMatrixPalette(mPosePalette);
 
-   std::vector<glm::mat4>& inverseBindPose = mSkeleton.GetInvBindPose();
+   std::vector<glm::mat4>& inverseBindPose = mCharacterSkeleton.GetInvBindPose();
 
    // Generate the skin matrices
-   mAnimationData.skinMatrices.resize(mAnimationData.animatedPosePalette.size());
+   mSkinMatrices.resize(mPosePalette.size());
    for (unsigned int i = 0,
-        size = static_cast<unsigned int>(mAnimationData.animatedPosePalette.size());
+        size = static_cast<unsigned int>(mPosePalette.size());
         i < size;
         ++i)
    {
-      mAnimationData.skinMatrices[i] = mAnimationData.animatedPosePalette[i] * inverseBindPose[i];
+      mSkinMatrices[i] = mPosePalette[i] * inverseBindPose[i];
    }
 
    // Update the skeleton viewer
-   mSkeletonViewer.UpdateBones(mAnimationData.animatedPose, mAnimationData.animatedPosePalette);
+   mSkeletonViewer.UpdateBones(mPose, mPosePalette);
 
    // Update the track visualizer
    mTrackVisualizer.update(deltaTime, mSelectedPlaybackSpeed);
@@ -326,22 +326,22 @@ void ModelViewerState::render()
    if (mDisplayMesh)
    {
       mAnimatedMeshShader->use(true);
-      mAnimatedMeshShader->setUniformMat4("model",      transformToMat4(mAnimationData.modelTransform));
+      mAnimatedMeshShader->setUniformMat4("model",      transformToMat4(mModelTransform));
       mAnimatedMeshShader->setUniformMat4("view",       mCamera3.getViewMatrix());
       mAnimatedMeshShader->setUniformMat4("projection", mCamera3.getPerspectiveProjectionMatrix());
-      mAnimatedMeshShader->setUniformMat4Array("animated[0]", mAnimationData.skinMatrices);
-      mDiffuseTexture->bind(0, mAnimatedMeshShader->getUniformLocation("diffuseTex"));
+      mAnimatedMeshShader->setUniformMat4Array("animated[0]", mSkinMatrices);
+      mCharacterTexture->bind(0, mAnimatedMeshShader->getUniformLocation("diffuseTex"));
 
       // Loop over the meshes and render each one
       for (unsigned int i = 0,
-           size = static_cast<unsigned int>(mAnimatedMeshes.size());
+           size = static_cast<unsigned int>(mCharacterMeshes.size());
            i < size;
            ++i)
       {
-         mAnimatedMeshes[i].Render();
+         mCharacterMeshes[i].Render();
       }
 
-      mDiffuseTexture->unbind(0);
+      mCharacterTexture->unbind(0);
       mAnimatedMeshShader->use(false);
    }
 
@@ -361,7 +361,7 @@ void ModelViewerState::render()
    // Render the bones
    if (mDisplayBones)
    {
-      mSkeletonViewer.RenderBones(mAnimationData.modelTransform, mCamera3.getPerspectiveProjectionViewMatrix());
+      mSkeletonViewer.RenderBones(mModelTransform, mCamera3.getPerspectiveProjectionViewMatrix());
    }
 
    glLineWidth(1.0f);
@@ -376,7 +376,7 @@ void ModelViewerState::render()
    // Render the joints
    if (mDisplayJoints)
    {
-      mSkeletonViewer.RenderJoints(mAnimationData.modelTransform, mCamera3.getPerspectiveProjectionViewMatrix(), mAnimationData.animatedPosePalette);
+      mSkeletonViewer.RenderJoints(mModelTransform, mCamera3.getPerspectiveProjectionViewMatrix(), mPosePalette);
    }
 
 #ifndef __EMSCRIPTEN__
@@ -448,19 +448,14 @@ void ModelViewerState::userInterface()
 
    if (ImGui::CollapsingHeader("Settings", nullptr))
    {
-      ImGui::Combo("Clip", &mSelectedClip, mClipNames.c_str());
+      ImGui::Combo("Clip", &mSelectedClip, mCharacterClipNames.c_str());
 
       ImGui::SliderFloat("Playback Speed", &mSelectedPlaybackSpeed, 0.0f, 2.0f, "%.3f");
 
-      float durationOfCurrClip = mClips[mAnimationData.currentClipIndex].GetDuration();
+      float durationOfCurrClip = mCharacterClips[mCurrentClipIndex].GetDuration();
       char progress[32];
-      snprintf(progress, 32, "%.3f / %.3f", mAnimationData.playbackTime, durationOfCurrClip);
-      ImGui::ProgressBar(mAnimationData.playbackTime / durationOfCurrClip, ImVec2(0.0f, 0.0f), progress);
-
-      //float normalizedPlaybackTime = (mAnimationData.playbackTime - mClips[mAnimationData.currentClipIndex].GetStartTime()) / mClips[mAnimationData.currentClipIndex].GetDuration();
-      //char progress[32];
-      //snprintf(progress, 32, "%.3f", normalizedPlaybackTime);
-      //ImGui::ProgressBar(normalizedPlaybackTime, ImVec2(0.0f, 0.0f), progress);
+      snprintf(progress, 32, "%.3f / %.3f", mPlaybackTime, durationOfCurrClip);
+      ImGui::ProgressBar(mPlaybackTime / durationOfCurrClip, ImVec2(0.0f, 0.0f), progress);
 
       ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
       ImGui::Text("Playback Time");

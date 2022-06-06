@@ -53,32 +53,20 @@ private:
    std::shared_ptr<Texture>            mGroundTexture;
    std::shared_ptr<Shader>             mGroundShader;
 
-   struct AnimationData
-   {
-      AnimationData()
-         : currentClipIndex(0)
-         , playbackTime(0.0f)
-      {
-
-      }
-
-      unsigned int           currentClipIndex;
-
-      float                  playbackTime;
-      Pose                   animatedPose;
-      std::vector<glm::mat4> animatedPosePalette;
-      std::vector<glm::mat4> skinMatrices;
-      Transform              modelTransform;
-   };
-
    std::shared_ptr<Shader>   mAnimatedMeshShader;
-   std::shared_ptr<Texture>  mDiffuseTexture;
+   std::shared_ptr<Texture>  mCharacterTexture;
+   Skeleton                  mCharacterSkeleton;
+   std::vector<AnimatedMesh> mCharacterMeshes;
+   std::vector<FastClip>     mCharacterClips;
+   std::string               mCharacterClipNames;
 
-   Skeleton                  mSkeleton;
-   std::vector<AnimatedMesh> mAnimatedMeshes;
-   SkeletonViewer            mSkeletonViewer;
-   std::vector<FastClip>     mClips;
-   std::string               mClipNames;
+   unsigned int              mCurrentClipIndex = 0;
+   float                     mPlaybackTime = 0.0f;
+   Pose                      mPose;
+   std::vector<glm::mat4>    mPosePalette;
+   std::vector<glm::mat4>    mSkinMatrices;
+   Transform                 mModelTransform;
+
    int                       mSelectedClip;
    float                     mSelectedPlaybackSpeed;
    bool                      mDisplayGround;
@@ -92,10 +80,9 @@ private:
    bool                      mPerformDepthTesting;
 #endif
 
-   AnimationData             mAnimationData;
-
    bool                      mPause = false;
 
+   SkeletonViewer            mSkeletonViewer;
    TrackVisualizer           mTrackVisualizer;
 };
 
