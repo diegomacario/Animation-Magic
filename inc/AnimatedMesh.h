@@ -47,10 +47,6 @@ public:
    void                       Render();
    void                       RenderInstanced(unsigned int numInstances);
 
-   void                       SkinMeshOnTheCPUUsingMatrices(Skeleton& skeleton, Pose& animatedPose);
-   void                       SkinMeshOnTheCPUUsingTransforms(Skeleton& skeleton, Pose& animatedPose);
-   void                       SkinMeshOnTheCPU(std::vector<glm::mat4>& skinMatrices);
-
 private:
 
    std::vector<glm::vec3>      mPositions;
@@ -73,10 +69,6 @@ private:
    unsigned int                mVAO;
    std::array<unsigned int, 5> mVBOs;
    unsigned int                mEBO;
-
-   std::vector<glm::vec3>      mSkinnedPositions;
-   std::vector<glm::vec3>      mSkinnedNormals;
-   std::vector<glm::mat4>      mAnimatedPosePalette;
 };
 
 #endif

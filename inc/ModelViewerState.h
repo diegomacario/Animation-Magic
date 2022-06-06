@@ -37,9 +37,6 @@ private:
 
    void configureLights(const std::shared_ptr<Shader>& shader);
 
-   void switchFromGPUToCPU();
-   void switchFromCPUToGPU();
-
    void userInterface();
 
    void resetScene();
@@ -56,24 +53,16 @@ private:
    std::shared_ptr<Texture>            mGroundTexture;
    std::shared_ptr<Shader>             mGroundShader;
 
-   enum SkinningMode : int
-   {
-      GPU = 0,
-      CPU = 1,
-   };
-
    struct AnimationData
    {
       AnimationData()
          : currentClipIndex(0)
-         , currentSkinningMode(SkinningMode::GPU)
          , playbackTime(0.0f)
       {
 
       }
 
       unsigned int           currentClipIndex;
-      SkinningMode           currentSkinningMode;
 
       float                  playbackTime;
       Pose                   animatedPose;
@@ -83,7 +72,6 @@ private:
    };
 
    std::shared_ptr<Shader>   mAnimatedMeshShader;
-   std::shared_ptr<Shader>   mStaticMeshShader;
    std::shared_ptr<Texture>  mDiffuseTexture;
 
    Skeleton                  mSkeleton;
@@ -92,7 +80,6 @@ private:
    std::vector<FastClip>     mClips;
    std::string               mClipNames;
    int                       mSelectedClip;
-   int                       mSelectedSkinningMode;
    float                     mSelectedPlaybackSpeed;
    bool                      mDisplayGround;
    bool                      mDisplayGraphs;
