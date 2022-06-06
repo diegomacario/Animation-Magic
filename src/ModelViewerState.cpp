@@ -57,8 +57,8 @@ void ModelViewerState::initializeState()
    mCurrentClipIndex = { 7,   // Woman  - Walk
                          1,   // George - Hello
                          0,   // Leela  - Dance
-                         5,   // Mike   - Run
-                         7,   // Stan   - Yes
+                         5,   // Mike   - Walk
+                         2,   // Stan   - Idle
                          0 }; // Pistol - Fire
 
    // Set the initial playback speed
