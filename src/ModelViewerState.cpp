@@ -95,7 +95,7 @@ void ModelViewerState::initializeState()
                        Transform(glm::vec3(0.2f, 2.45f, 0.0f), Q::quat(), glm::vec3(0.5f)) }; // Pistol
 
    mJointScaleFactors = { 7.5f,   // Woman
-                          7.5f,   // Man
+                          0.1f,   // Man
                           0.1f,   // Stag
                           0.1f,   // George
                           0.1f,   // Leela
