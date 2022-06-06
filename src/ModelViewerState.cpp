@@ -55,10 +55,13 @@ void ModelViewerState::initializeState()
    // Set the initial clip
    mSelectedClip = 7;         // Woman  - Walk
    mCurrentClipIndex = { 7,   // Woman  - Walk
+                         2,   // Man    - Run
+                         0,   // Stag   - Idle
                          1,   // George - Hello
                          0,   // Leela  - Dance
                          5,   // Mike   - Walk
                          2,   // Stan   - Idle
+                         3,   // Zombie - Walk
                          0 }; // Pistol - Fire
 
    // Set the initial playback speed
@@ -82,17 +85,23 @@ void ModelViewerState::initializeState()
 
    // Set the model transform
    mModelTransform = { Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(1.0f)),    // Woman
+                       Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.975f)),  // Man
+                       Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.95f)),   // Stag
                        Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // George
                        Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // Leela
                        Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // Mike
                        Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // Stan
+                       Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.95f)),   // Zombie
                        Transform(glm::vec3(0.2f, 2.45f, 0.0f), Q::quat(), glm::vec3(0.5f)) }; // Pistol
 
    mJointScaleFactors = { 7.5f,   // Woman
+                          7.5f,   // Man
+                          0.1f,   // Stag
                           0.1f,   // George
                           0.1f,   // Leela
                           0.1f,   // Mike
                           0.1f,   // Stan
+                          0.1f,   // Zombie
                           0.3f }; // Pistol
 
    // Reset the track visualizer
@@ -362,38 +371,38 @@ void ModelViewerState::exit()
 void ModelViewerState::loadCharacters()
 {
    std::vector<std::string> characterTextureFilePaths { "resources/models/woman/woman.png",
-                                                        //"resources/models/humans/man.png",
+                                                        "resources/models/man/man.png",
                                                         //"resources/models/animals/alpaca.png",
                                                         //"resources/models/animals/deer.png",
                                                         //"resources/models/animals/fox.png",
                                                         //"resources/models/animals/horse.png",
                                                         //"resources/models/animals/husky.png",
-                                                        //"resources/models/animals/stag.png",
+                                                        "resources/models/animals/stag.png",
                                                         //"resources/models/animals/wolf.png",
                                                         "resources/models/mechs/george.png",
                                                         "resources/models/mechs/leela.png",
                                                         "resources/models/mechs/mike.png",
                                                         "resources/models/mechs/stan.png",
-                                                        //"resources/models/zombie/zombie.png",
+                                                        "resources/models/zombie/zombie.png",
                                                         "resources/models/pistol/pistol.png" };
 
    std::vector<std::string> characterModelFilePaths { "resources/models/woman/woman.gltf",
-                                                      //"resources/models/humans/man.glb",
+                                                      "resources/models/man/man.glb",
                                                       //"resources/models/animals/alpaca.glb",
                                                       //"resources/models/animals/deer.glb",
                                                       //"resources/models/animals/fox.glb",
                                                       //"resources/models/animals/horse.glb",
                                                       //"resources/models/animals/husky.glb",
-                                                      //"resources/models/animals/stag.glb",
+                                                      "resources/models/animals/stag.glb",
                                                       //"resources/models/animals/wolf.glb",
                                                       "resources/models/mechs/george.glb",
                                                       "resources/models/mechs/leela.glb",
                                                       "resources/models/mechs/mike.glb",
                                                       "resources/models/mechs/stan.glb",
-                                                      //"resources/models/zombie/zombie.glb",
+                                                      "resources/models/zombie/zombie.glb",
                                                       "resources/models/pistol/pistol.gltf" };
 
-   std::vector<std::string> characterNames { "Woman", "George", "Leela", "Mike", "Stan", "Pistol" };
+   std::vector<std::string> characterNames { "Woman", "Man", "Stag", "George", "Leela", "Mike", "Stan", "Zombie", "Pistol" };
    for (const std::string& characterName : characterNames)
    {
       mCharacterNames += characterName + '\0';
