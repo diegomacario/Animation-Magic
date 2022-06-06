@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\src\camera.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\finite_state_machine.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shader.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shader_loader.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\texture.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\texture_loader.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\window.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\quat.cpp">
+      <Filter>Animation-Magic\Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Transform.cpp">
+      <Filter>Animation-Magic\Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Track.cpp">
+      <Filter>Animation-Magic\Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TransformTrack.cpp">
+      <Filter>Animation-Magic\Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Pose.cpp">
+      <Filter>Animation-Magic\Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Clip.cpp">
+      <Filter>Animation-Magic\Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Skeleton.cpp">
+      <Filter>Animation-Magic\Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\GLTFLoader.cpp">
+      <Filter>Animation-Magic\Source Files\GLTF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\RearrangeBones.cpp">
+      <Filter>Animation-Magic\Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\AnimatedMesh.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SkeletonViewer.cpp">
+      <Filter>Animation-Magic\Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Blending.cpp">
+      <Filter>Animation-Magic\Source Files\Animation\Blending</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CCDSolver.cpp">
+      <Filter>Animation-Magic\Source Files\IK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FABRIKSolver.cpp">
+      <Filter>Animation-Magic\Source Files\IK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Ray.cpp">
+      <Filter>Animation-Magic\Source Files\Intersection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Triangle.cpp">
+      <Filter>Animation-Magic\Source Files\Intersection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Intersection.cpp">
+      <Filter>Animation-Magic\Source Files\Intersection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\IKLeg.cpp">
+      <Filter>Animation-Magic\Source Files\IK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\IKState.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\IKMovementState.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MovementState.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CrossFadeTarget.cpp">
+      <Filter>Animation-Magic\Source Files\Animation\Blending</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CrossFadeControllerSingle.cpp">
+      <Filter>Animation-Magic\Source Files\Animation\Blending</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CrossFadeControllerQueue.cpp">
+      <Filter>Animation-Magic\Source Files\Animation\Blending</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CrossFadeControllerMultiple.cpp">
+      <Filter>Animation-Magic\Source Files\Animation\Blending</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Camera3.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\IKCrossFadeController.cpp">
+      <Filter>Animation-Magic\Source Files\IK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\IKCrossFadeTarget.cpp">
+      <Filter>Animation-Magic\Source Files\IK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ModelViewerState.cpp">
+      <Filter>Animation-Magic\Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Water.cpp">
+      <Filter>Animation-Magic\Source Files\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SkeletonViewerClipped.cpp">
+      <Filter>Animation-Magic\Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Sky.cpp">
+      <Filter>Animation-Magic\Source Files\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\glad\glad\glad.c">
+      <Filter>glad\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\cgltf\cgltf\cgltf.c">
+      <Filter>cgltf\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui\imgui.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui\imgui_demo.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui\imgui_draw.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui\imgui_impl_glfw.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui\imgui_impl_opengl3.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui\imgui_tables.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\imgui\imgui\imgui_widgets.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\stb_image\stb_image\stb_image.cpp">
+      <Filter>stb_image\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\inc\camera.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\finite_state_machine.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\game.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\resource_manager.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\shader.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\shader_loader.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\state.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\texture.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\texture_loader.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\window.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\quat.h">
+      <Filter>Animation-Magic\Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Transform.h">
+      <Filter>Animation-Magic\Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Frame.h">
+      <Filter>Animation-Magic\Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Interpolation.h">
+      <Filter>Animation-Magic\Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Track.h">
+      <Filter>Animation-Magic\Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\TransformTrack.h">
+      <Filter>Animation-Magic\Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Pose.h">
+      <Filter>Animation-Magic\Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Clip.h">
+      <Filter>Animation-Magic\Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Skeleton.h">
+      <Filter>Animation-Magic\Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\GLTFLoader.h">
+      <Filter>Animation-Magic\Header Files\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\RearrangeBones.h">
+      <Filter>Animation-Magic\Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\AnimatedMesh.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\SkeletonViewer.h">
+      <Filter>Animation-Magic\Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Blending.h">
+      <Filter>Animation-Magic\Header Files\Animation\Blending</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\CrossFadeTarget.h">
+      <Filter>Animation-Magic\Header Files\Animation\Blending</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\CCDSolver.h">
+      <Filter>Animation-Magic\Header Files\IK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\FABRIKSolver.h">
+      <Filter>Animation-Magic\Header Files\IK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Ray.h">
+      <Filter>Animation-Magic\Header Files\Intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Triangle.h">
+      <Filter>Animation-Magic\Header Files\Intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Intersection.h">
+      <Filter>Animation-Magic\Header Files\Intersection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\IKLeg.h">
+      <Filter>Animation-Magic\Header Files\IK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\IKState.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\IKMovementState.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\MovementState.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\CrossFadeControllerSingle.h">
+      <Filter>Animation-Magic\Header Files\Animation\Blending</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\CrossFadeControllerQueue.h">
+      <Filter>Animation-Magic\Header Files\Animation\Blending</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\CrossFadeControllerMultiple.h">
+      <Filter>Animation-Magic\Header Files\Animation\Blending</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Camera3.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\IKCrossFadeController.h">
+      <Filter>Animation-Magic\Header Files\IK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\IKCrossFadeTarget.h">
+      <Filter>Animation-Magic\Header Files\IK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\ModelViewerState.h">
+      <Filter>Animation-Magic\Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Water.h">
+      <Filter>Animation-Magic\Header Files\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\SkeletonViewerClipped.h">
+      <Filter>Animation-Magic\Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Sky.h">
+      <Filter>Animation-Magic\Header Files\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\cgltf\cgltf\cgltf.h">
+      <Filter>cgltf\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imgui\imconfig.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imgui\imgui.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imgui\imgui_impl_glfw.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imgui\imgui_impl_opengl3.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imgui\imgui_impl_opengl3_loader.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imgui\imgui_internal.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imgui\imstb_rectpack.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imgui\imstb_textedit.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\imgui\imgui\imstb_truetype.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\stb_image\stb_image\stb_image.h">
+      <Filter>stb_image\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Animation-Magic">
+      <UniqueIdentifier>{9ec9c298-d5c4-49bf-a3c1-e6e87cd4967b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Header Files">
+      <UniqueIdentifier>{5f2ff2bb-204b-4340-bade-bc956377621b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Source Files">
+      <UniqueIdentifier>{5da93047-441c-41b6-9301-24322f80ad49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glad">
+      <UniqueIdentifier>{41442bc0-325c-4d23-9880-98105f1f2351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glad\Source Files">
+      <UniqueIdentifier>{6038a6f1-bbdd-431f-a9e5-82eff4334e79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stb_image">
+      <UniqueIdentifier>{2d1fcf88-d0b3-47dc-9ba5-e563f93cc3f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stb_image\Source Files">
+      <UniqueIdentifier>{4939593d-d351-4e02-a320-d63d045fc0dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stb_image\Header Files">
+      <UniqueIdentifier>{a044b704-77d1-4612-9e00-a1dc4954c674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{320dc8ec-0288-4726-a675-a52397539372}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Header Files">
+      <UniqueIdentifier>{165ccf5b-448f-4195-bfc7-f96ad535110c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Source Files">
+      <UniqueIdentifier>{c202f461-3133-4161-af24-7b42ab803601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Header Files\Base">
+      <UniqueIdentifier>{57494713-732a-4c22-a4e1-a89a13b061cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Source Files\Base">
+      <UniqueIdentifier>{b6598835-209d-499c-ad6f-4a959307165e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Header Files\Math">
+      <UniqueIdentifier>{5faa0a4a-724c-4990-8f17-e2fc0a02df0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Source Files\Math">
+      <UniqueIdentifier>{5e6627a8-3e2f-4380-bd2b-a691b9fc952f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Header Files\Animation">
+      <UniqueIdentifier>{2f1c2aab-3dba-4fc6-b593-3db84c628e44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Source Files\Animation">
+      <UniqueIdentifier>{6970468a-f448-42eb-879d-892784e8da63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Header Files\GLTF">
+      <UniqueIdentifier>{e19a1c59-38db-4803-866e-c82d941736b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Source Files\GLTF">
+      <UniqueIdentifier>{15bc05b7-8bc3-4c1c-8aea-143e188e7ecb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cgltf">
+      <UniqueIdentifier>{2258a12e-e88c-4122-9296-65e21333fb6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cgltf\Header Files">
+      <UniqueIdentifier>{cb44ea0f-0562-49b8-8248-03464fbad116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cgltf\Source Files">
+      <UniqueIdentifier>{ca63f70b-bad1-4bde-bf0c-d2a927512633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Header Files\Animation\Blending">
+      <UniqueIdentifier>{29824537-20a9-4b77-b9c6-a4340ce8fd57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Source Files\Animation\Blending">
+      <UniqueIdentifier>{6dce106b-0783-4d3d-ac53-23f34c0ee112}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Header Files\IK">
+      <UniqueIdentifier>{7c48b4cb-aa80-4028-a585-fde4498cc81f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Source Files\IK">
+      <UniqueIdentifier>{b70c9b28-4329-49e0-905f-cb4cf2bf644c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Header Files\Intersection">
+      <UniqueIdentifier>{ea7ed313-6963-45ff-8c96-bd00116ea60e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Source Files\Intersection">
+      <UniqueIdentifier>{20a5dc86-88e4-4bc7-aa9e-8c5069027b61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Header Files\Environment">
+      <UniqueIdentifier>{fc488087-4153-4f60-9628-2cd47c8bd1d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation-Magic\Source Files\Environment">
+      <UniqueIdentifier>{0fe92a37-d291-4881-b66d-fa3e23eebc57}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

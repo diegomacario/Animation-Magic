@@ -1,0 +1,607 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		043A2D7B2847F178001E6F77 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043A2D7A2847F178001E6F77 /* IOKit.framework */; };
+		043A2D7D2847F182001E6F77 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043A2D7C2847F182001E6F77 /* Cocoa.framework */; };
+		043A2D7F2847F1B0001E6F77 /* imgui_tables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 043A2D7E2847F1B0001E6F77 /* imgui_tables.cpp */; };
+		043A2D812848E0C7001E6F77 /* lglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 043A2D802848E0C7001E6F77 /* lglfw3.a */; };
+		043A2D832849040C001E6F77 /* TrackVisualizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 043A2D822849040C001E6F77 /* TrackVisualizer.cpp */; };
+		04B9049C2847E1C800FF56D3 /* SkeletonViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904942847E1C800FF56D3 /* SkeletonViewer.cpp */; };
+		04B9049D2847E1C800FF56D3 /* Clip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904952847E1C800FF56D3 /* Clip.cpp */; };
+		04B9049E2847E1C800FF56D3 /* RearrangeBones.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904962847E1C800FF56D3 /* RearrangeBones.cpp */; };
+		04B9049F2847E1C800FF56D3 /* Pose.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904972847E1C800FF56D3 /* Pose.cpp */; };
+		04B904A12847E1C800FF56D3 /* TransformTrack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904992847E1C800FF56D3 /* TransformTrack.cpp */; };
+		04B904A22847E1C800FF56D3 /* Skeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B9049A2847E1C800FF56D3 /* Skeleton.cpp */; };
+		04B904A32847E1C800FF56D3 /* Track.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B9049B2847E1C800FF56D3 /* Track.cpp */; };
+		04B904B32847E22700FF56D3 /* Camera3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904A42847E22700FF56D3 /* Camera3.cpp */; };
+		04B904B42847E22700FF56D3 /* texture_loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904A52847E22700FF56D3 /* texture_loader.cpp */; };
+		04B904B52847E22700FF56D3 /* window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904A62847E22700FF56D3 /* window.cpp */; };
+		04B904B72847E22700FF56D3 /* game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904A82847E22700FF56D3 /* game.cpp */; };
+		04B904B82847E22700FF56D3 /* ModelViewerState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904A92847E22700FF56D3 /* ModelViewerState.cpp */; };
+		04B904BB2847E22700FF56D3 /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904AC2847E22700FF56D3 /* texture.cpp */; };
+		04B904BD2847E22700FF56D3 /* shader_loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904AE2847E22700FF56D3 /* shader_loader.cpp */; };
+		04B904BE2847E22700FF56D3 /* finite_state_machine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904AF2847E22700FF56D3 /* finite_state_machine.cpp */; };
+		04B904BF2847E22700FF56D3 /* AnimatedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904B02847E22700FF56D3 /* AnimatedMesh.cpp */; };
+		04B904C02847E22700FF56D3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904B12847E22700FF56D3 /* main.cpp */; };
+		04B904C12847E22700FF56D3 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904B22847E22700FF56D3 /* shader.cpp */; };
+		04B904C72847E25400FF56D3 /* GLTFLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904C62847E25400FF56D3 /* GLTFLoader.cpp */; };
+		04B904DA2847E2BB00FF56D3 /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904D82847E2BB00FF56D3 /* Transform.cpp */; };
+		04B904DB2847E2BB00FF56D3 /* quat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B904D92847E2BB00FF56D3 /* quat.cpp */; };
+		04B9050D2847EC0D00FF56D3 /* stb_image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B9050C2847EC0D00FF56D3 /* stb_image.cpp */; };
+		04B9050F2847EC1C00FF56D3 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 04B9050E2847EC1C00FF56D3 /* glad.c */; };
+		04B905112847EC3100FF56D3 /* cgltf.c in Sources */ = {isa = PBXBuildFile; fileRef = 04B905102847EC3100FF56D3 /* cgltf.c */; };
+		04B905232847ED1500FF56D3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B9051F2847ECEC00FF56D3 /* OpenGL.framework */; };
+		04B9052C2847F04E00FF56D3 /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B905262847F04E00FF56D3 /* imgui_demo.cpp */; };
+		04B9052D2847F04E00FF56D3 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B905272847F04E00FF56D3 /* imgui.cpp */; };
+		04B9052E2847F04E00FF56D3 /* imgui_impl_glfw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B905282847F04E00FF56D3 /* imgui_impl_glfw.cpp */; };
+		04B9052F2847F04E00FF56D3 /* imgui_widgets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B905292847F04E00FF56D3 /* imgui_widgets.cpp */; };
+		04B905302847F04E00FF56D3 /* imgui_impl_opengl3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B9052A2847F04E00FF56D3 /* imgui_impl_opengl3.cpp */; };
+		04B905312847F04E00FF56D3 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04B9052B2847F04E00FF56D3 /* imgui_draw.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		04B9046C2847A50E00FF56D3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		043A2D7A2847F178001E6F77 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		043A2D7C2847F182001E6F77 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		043A2D7E2847F1B0001E6F77 /* imgui_tables.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_tables.cpp; path = ../../dependencies/imgui/imgui/imgui_tables.cpp; sourceTree = "<group>"; };
+		043A2D802848E0C7001E6F77 /* lglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = lglfw3.a; path = ../../dependencies/GLFW/GLFW/lib/mac/lglfw3.a; sourceTree = "<group>"; };
+		043A2D822849040C001E6F77 /* TrackVisualizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TrackVisualizer.cpp; path = ../../src/TrackVisualizer.cpp; sourceTree = "<group>"; };
+		043A2D842849041F001E6F77 /* TrackVisualizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TrackVisualizer.h; path = ../../inc/TrackVisualizer.h; sourceTree = "<group>"; };
+		04B9046E2847A50E00FF56D3 /* Animation Experiments */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Animation Experiments"; sourceTree = BUILT_PRODUCTS_DIR; };
+		04B904942847E1C800FF56D3 /* SkeletonViewer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SkeletonViewer.cpp; path = ../../src/SkeletonViewer.cpp; sourceTree = "<group>"; };
+		04B904952847E1C800FF56D3 /* Clip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Clip.cpp; path = ../../src/Clip.cpp; sourceTree = "<group>"; };
+		04B904962847E1C800FF56D3 /* RearrangeBones.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RearrangeBones.cpp; path = ../../src/RearrangeBones.cpp; sourceTree = "<group>"; };
+		04B904972847E1C800FF56D3 /* Pose.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Pose.cpp; path = ../../src/Pose.cpp; sourceTree = "<group>"; };
+		04B904992847E1C800FF56D3 /* TransformTrack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransformTrack.cpp; path = ../../src/TransformTrack.cpp; sourceTree = "<group>"; };
+		04B9049A2847E1C800FF56D3 /* Skeleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Skeleton.cpp; path = ../../src/Skeleton.cpp; sourceTree = "<group>"; };
+		04B9049B2847E1C800FF56D3 /* Track.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Track.cpp; path = ../../src/Track.cpp; sourceTree = "<group>"; };
+		04B904A42847E22700FF56D3 /* Camera3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera3.cpp; path = ../../src/Camera3.cpp; sourceTree = "<group>"; };
+		04B904A52847E22700FF56D3 /* texture_loader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texture_loader.cpp; path = ../../src/texture_loader.cpp; sourceTree = "<group>"; };
+		04B904A62847E22700FF56D3 /* window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = window.cpp; path = ../../src/window.cpp; sourceTree = "<group>"; };
+		04B904A82847E22700FF56D3 /* game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = game.cpp; path = ../../src/game.cpp; sourceTree = "<group>"; };
+		04B904A92847E22700FF56D3 /* ModelViewerState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModelViewerState.cpp; path = ../../src/ModelViewerState.cpp; sourceTree = "<group>"; };
+		04B904AC2847E22700FF56D3 /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texture.cpp; path = ../../src/texture.cpp; sourceTree = "<group>"; };
+		04B904AE2847E22700FF56D3 /* shader_loader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shader_loader.cpp; path = ../../src/shader_loader.cpp; sourceTree = "<group>"; };
+		04B904AF2847E22700FF56D3 /* finite_state_machine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = finite_state_machine.cpp; path = ../../src/finite_state_machine.cpp; sourceTree = "<group>"; };
+		04B904B02847E22700FF56D3 /* AnimatedMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimatedMesh.cpp; path = ../../src/AnimatedMesh.cpp; sourceTree = "<group>"; };
+		04B904B12847E22700FF56D3 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../src/main.cpp; sourceTree = "<group>"; };
+		04B904B22847E22700FF56D3 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shader.cpp; path = ../../src/shader.cpp; sourceTree = "<group>"; };
+		04B904C62847E25400FF56D3 /* GLTFLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLTFLoader.cpp; path = ../../src/GLTFLoader.cpp; sourceTree = "<group>"; };
+		04B904D82847E2BB00FF56D3 /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Transform.cpp; path = ../../src/Transform.cpp; sourceTree = "<group>"; };
+		04B904D92847E2BB00FF56D3 /* quat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = quat.cpp; path = ../../src/quat.cpp; sourceTree = "<group>"; };
+		04B904E12847E76A00FF56D3 /* Clip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Clip.h; path = ../../inc/Clip.h; sourceTree = "<group>"; };
+		04B904E22847E76A00FF56D3 /* Frame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Frame.h; path = ../../inc/Frame.h; sourceTree = "<group>"; };
+		04B904E32847E76A00FF56D3 /* Pose.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Pose.h; path = ../../inc/Pose.h; sourceTree = "<group>"; };
+		04B904E42847E76A00FF56D3 /* Track.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Track.h; path = ../../inc/Track.h; sourceTree = "<group>"; };
+		04B904E52847E76A00FF56D3 /* TransformTrack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TransformTrack.h; path = ../../inc/TransformTrack.h; sourceTree = "<group>"; };
+		04B904E62847E76A00FF56D3 /* Interpolation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Interpolation.h; path = ../../inc/Interpolation.h; sourceTree = "<group>"; };
+		04B904E72847E76A00FF56D3 /* SkeletonViewer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkeletonViewer.h; path = ../../inc/SkeletonViewer.h; sourceTree = "<group>"; };
+		04B904E92847E76A00FF56D3 /* Skeleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Skeleton.h; path = ../../inc/Skeleton.h; sourceTree = "<group>"; };
+		04B904EA2847E76A00FF56D3 /* RearrangeBones.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RearrangeBones.h; path = ../../inc/RearrangeBones.h; sourceTree = "<group>"; };
+		04B904EB2847E7E000FF56D3 /* window.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = window.h; path = ../../inc/window.h; sourceTree = "<group>"; };
+		04B904EC2847E7E000FF56D3 /* game.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = game.h; path = ../../inc/game.h; sourceTree = "<group>"; };
+		04B904EE2847E7E000FF56D3 /* ModelViewerState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelViewerState.h; path = ../../inc/ModelViewerState.h; sourceTree = "<group>"; };
+		04B904EF2847E7E000FF56D3 /* Camera3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Camera3.h; path = ../../inc/Camera3.h; sourceTree = "<group>"; };
+		04B904F22847E7E000FF56D3 /* state.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = state.h; path = ../../inc/state.h; sourceTree = "<group>"; };
+		04B904F32847E7E000FF56D3 /* texture_loader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = texture_loader.h; path = ../../inc/texture_loader.h; sourceTree = "<group>"; };
+		04B904F42847E7E000FF56D3 /* texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = texture.h; path = ../../inc/texture.h; sourceTree = "<group>"; };
+		04B904F62847E7E000FF56D3 /* AnimatedMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AnimatedMesh.h; path = ../../inc/AnimatedMesh.h; sourceTree = "<group>"; };
+		04B904F72847E7E000FF56D3 /* shader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = shader.h; path = ../../inc/shader.h; sourceTree = "<group>"; };
+		04B904F82847E7E000FF56D3 /* shader_loader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = shader_loader.h; path = ../../inc/shader_loader.h; sourceTree = "<group>"; };
+		04B904F92847E7E000FF56D3 /* finite_state_machine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = finite_state_machine.h; path = ../../inc/finite_state_machine.h; sourceTree = "<group>"; };
+		04B904FA2847E7E000FF56D3 /* resource_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = resource_manager.h; path = ../../inc/resource_manager.h; sourceTree = "<group>"; };
+		04B904FD2847E81900FF56D3 /* GLTFLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLTFLoader.h; path = ../../inc/GLTFLoader.h; sourceTree = "<group>"; };
+		04B905062847E87200FF56D3 /* quat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = quat.h; path = ../../inc/quat.h; sourceTree = "<group>"; };
+		04B905072847E87200FF56D3 /* Transform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Transform.h; path = ../../inc/Transform.h; sourceTree = "<group>"; };
+		04B9050C2847EC0D00FF56D3 /* stb_image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = stb_image.cpp; path = ../../dependencies/stb_image/stb_image/stb_image.cpp; sourceTree = "<group>"; };
+		04B9050E2847EC1C00FF56D3 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = glad.c; path = ../../dependencies/glad/glad/glad.c; sourceTree = "<group>"; };
+		04B905102847EC3100FF56D3 /* cgltf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cgltf.c; path = ../../dependencies/cgltf/cgltf/cgltf.c; sourceTree = "<group>"; };
+		04B9051F2847ECEC00FF56D3 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		04B905212847ECFF00FF56D3 /* Personal */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Personal; path = ../../../..; sourceTree = "<group>"; };
+		04B905242847ED3C00FF56D3 /* lglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = lglfw3.a; path = ../../dependencies/GLFW/GLFW/lib/lglfw3.a; sourceTree = "<group>"; };
+		04B905262847F04E00FF56D3 /* imgui_demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_demo.cpp; path = ../../dependencies/imgui/imgui/imgui_demo.cpp; sourceTree = "<group>"; };
+		04B905272847F04E00FF56D3 /* imgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui.cpp; path = ../../dependencies/imgui/imgui/imgui.cpp; sourceTree = "<group>"; };
+		04B905282847F04E00FF56D3 /* imgui_impl_glfw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_impl_glfw.cpp; path = ../../dependencies/imgui/imgui/imgui_impl_glfw.cpp; sourceTree = "<group>"; };
+		04B905292847F04E00FF56D3 /* imgui_widgets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_widgets.cpp; path = ../../dependencies/imgui/imgui/imgui_widgets.cpp; sourceTree = "<group>"; };
+		04B9052A2847F04E00FF56D3 /* imgui_impl_opengl3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_impl_opengl3.cpp; path = ../../dependencies/imgui/imgui/imgui_impl_opengl3.cpp; sourceTree = "<group>"; };
+		04B9052B2847F04E00FF56D3 /* imgui_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_draw.cpp; path = ../../dependencies/imgui/imgui/imgui_draw.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		04B9046B2847A50E00FF56D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				043A2D812848E0C7001E6F77 /* lglfw3.a in Frameworks */,
+				043A2D7D2847F182001E6F77 /* Cocoa.framework in Frameworks */,
+				043A2D7B2847F178001E6F77 /* IOKit.framework in Frameworks */,
+				04B905232847ED1500FF56D3 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		04B904652847A50D00FF56D3 = {
+			isa = PBXGroup;
+			children = (
+				04B9050B2847EBF400FF56D3 /* stb_image */,
+				04B9050A2847EBE700FF56D3 /* imgui */,
+				04B905092847EBA900FF56D3 /* glad */,
+				04B905082847EB9B00FF56D3 /* cgltf */,
+				04B904792847A64200FF56D3 /* Header Files */,
+				04B904782847A63700FF56D3 /* Source Files */,
+				04B9046F2847A50E00FF56D3 /* Products */,
+				04B9051E2847ECEC00FF56D3 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		04B9046F2847A50E00FF56D3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				04B9046E2847A50E00FF56D3 /* Animation Experiments */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		04B904782847A63700FF56D3 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				04B9047A2847DD3500FF56D3 /* Animation */,
+				04B9047B2847DD4300FF56D3 /* Base */,
+				04B9047D2847DD5B00FF56D3 /* GLTF */,
+				04B904802847DD7A00FF56D3 /* Math */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		04B904792847A64200FF56D3 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				04B904812847DF9900FF56D3 /* Animation */,
+				04B904822847DFA300FF56D3 /* Base */,
+				04B904842847DFE700FF56D3 /* GLTF */,
+				04B904872847DFFD00FF56D3 /* Math */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		04B9047A2847DD3500FF56D3 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				04B904952847E1C800FF56D3 /* Clip.cpp */,
+				04B904972847E1C800FF56D3 /* Pose.cpp */,
+				04B904962847E1C800FF56D3 /* RearrangeBones.cpp */,
+				04B9049A2847E1C800FF56D3 /* Skeleton.cpp */,
+				04B904942847E1C800FF56D3 /* SkeletonViewer.cpp */,
+				04B9049B2847E1C800FF56D3 /* Track.cpp */,
+				04B904992847E1C800FF56D3 /* TransformTrack.cpp */,
+			);
+			name = Animation;
+			sourceTree = "<group>";
+		};
+		04B9047B2847DD4300FF56D3 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				043A2D822849040C001E6F77 /* TrackVisualizer.cpp */,
+				04B904B02847E22700FF56D3 /* AnimatedMesh.cpp */,
+				04B904A42847E22700FF56D3 /* Camera3.cpp */,
+				04B904AF2847E22700FF56D3 /* finite_state_machine.cpp */,
+				04B904A82847E22700FF56D3 /* game.cpp */,
+				04B904B12847E22700FF56D3 /* main.cpp */,
+				04B904A92847E22700FF56D3 /* ModelViewerState.cpp */,
+				04B904AE2847E22700FF56D3 /* shader_loader.cpp */,
+				04B904B22847E22700FF56D3 /* shader.cpp */,
+				04B904A52847E22700FF56D3 /* texture_loader.cpp */,
+				04B904AC2847E22700FF56D3 /* texture.cpp */,
+				04B904A62847E22700FF56D3 /* window.cpp */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		04B9047D2847DD5B00FF56D3 /* GLTF */ = {
+			isa = PBXGroup;
+			children = (
+				04B904C62847E25400FF56D3 /* GLTFLoader.cpp */,
+			);
+			name = GLTF;
+			sourceTree = "<group>";
+		};
+		04B904802847DD7A00FF56D3 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				04B904D92847E2BB00FF56D3 /* quat.cpp */,
+				04B904D82847E2BB00FF56D3 /* Transform.cpp */,
+			);
+			name = Math;
+			sourceTree = "<group>";
+		};
+		04B904812847DF9900FF56D3 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				04B904E12847E76A00FF56D3 /* Clip.h */,
+				04B904E22847E76A00FF56D3 /* Frame.h */,
+				04B904E62847E76A00FF56D3 /* Interpolation.h */,
+				04B904E32847E76A00FF56D3 /* Pose.h */,
+				04B904EA2847E76A00FF56D3 /* RearrangeBones.h */,
+				04B904E92847E76A00FF56D3 /* Skeleton.h */,
+				04B904E72847E76A00FF56D3 /* SkeletonViewer.h */,
+				04B904E42847E76A00FF56D3 /* Track.h */,
+				04B904E52847E76A00FF56D3 /* TransformTrack.h */,
+			);
+			name = Animation;
+			sourceTree = "<group>";
+		};
+		04B904822847DFA300FF56D3 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				043A2D842849041F001E6F77 /* TrackVisualizer.h */,
+				04B904F62847E7E000FF56D3 /* AnimatedMesh.h */,
+				04B904EF2847E7E000FF56D3 /* Camera3.h */,
+				04B904F92847E7E000FF56D3 /* finite_state_machine.h */,
+				04B904EC2847E7E000FF56D3 /* game.h */,
+				04B904EE2847E7E000FF56D3 /* ModelViewerState.h */,
+				04B904FA2847E7E000FF56D3 /* resource_manager.h */,
+				04B904F82847E7E000FF56D3 /* shader_loader.h */,
+				04B904F72847E7E000FF56D3 /* shader.h */,
+				04B904F22847E7E000FF56D3 /* state.h */,
+				04B904F32847E7E000FF56D3 /* texture_loader.h */,
+				04B904F42847E7E000FF56D3 /* texture.h */,
+				04B904EB2847E7E000FF56D3 /* window.h */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		04B904842847DFE700FF56D3 /* GLTF */ = {
+			isa = PBXGroup;
+			children = (
+				04B904FD2847E81900FF56D3 /* GLTFLoader.h */,
+			);
+			name = GLTF;
+			sourceTree = "<group>";
+		};
+		04B904872847DFFD00FF56D3 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				04B905062847E87200FF56D3 /* quat.h */,
+				04B905072847E87200FF56D3 /* Transform.h */,
+			);
+			name = Math;
+			sourceTree = "<group>";
+		};
+		04B905082847EB9B00FF56D3 /* cgltf */ = {
+			isa = PBXGroup;
+			children = (
+				04B905102847EC3100FF56D3 /* cgltf.c */,
+			);
+			name = cgltf;
+			sourceTree = "<group>";
+		};
+		04B905092847EBA900FF56D3 /* glad */ = {
+			isa = PBXGroup;
+			children = (
+				04B9050E2847EC1C00FF56D3 /* glad.c */,
+			);
+			name = glad;
+			sourceTree = "<group>";
+		};
+		04B9050A2847EBE700FF56D3 /* imgui */ = {
+			isa = PBXGroup;
+			children = (
+				043A2D7E2847F1B0001E6F77 /* imgui_tables.cpp */,
+				04B905262847F04E00FF56D3 /* imgui_demo.cpp */,
+				04B9052B2847F04E00FF56D3 /* imgui_draw.cpp */,
+				04B905282847F04E00FF56D3 /* imgui_impl_glfw.cpp */,
+				04B9052A2847F04E00FF56D3 /* imgui_impl_opengl3.cpp */,
+				04B905292847F04E00FF56D3 /* imgui_widgets.cpp */,
+				04B905272847F04E00FF56D3 /* imgui.cpp */,
+			);
+			name = imgui;
+			sourceTree = "<group>";
+		};
+		04B9050B2847EBF400FF56D3 /* stb_image */ = {
+			isa = PBXGroup;
+			children = (
+				04B9050C2847EC0D00FF56D3 /* stb_image.cpp */,
+			);
+			name = stb_image;
+			sourceTree = "<group>";
+		};
+		04B9051E2847ECEC00FF56D3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				043A2D802848E0C7001E6F77 /* lglfw3.a */,
+				043A2D7C2847F182001E6F77 /* Cocoa.framework */,
+				043A2D7A2847F178001E6F77 /* IOKit.framework */,
+				04B905242847ED3C00FF56D3 /* lglfw3.a */,
+				04B905212847ECFF00FF56D3 /* Personal */,
+				04B9051F2847ECEC00FF56D3 /* OpenGL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		04B9046D2847A50E00FF56D3 /* Animation Experiments */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04B904752847A50E00FF56D3 /* Build configuration list for PBXNativeTarget "Animation Experiments" */;
+			buildPhases = (
+				04B9046A2847A50E00FF56D3 /* Sources */,
+				04B9046B2847A50E00FF56D3 /* Frameworks */,
+				04B9046C2847A50E00FF56D3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Animation Experiments";
+			productName = "Animation Experiments";
+			productReference = 04B9046E2847A50E00FF56D3 /* Animation Experiments */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		04B904662847A50D00FF56D3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					04B9046D2847A50E00FF56D3 = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 04B904692847A50D00FF56D3 /* Build configuration list for PBXProject "Animation Experiments" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 04B904652847A50D00FF56D3;
+			productRefGroup = 04B9046F2847A50E00FF56D3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				04B9046D2847A50E00FF56D3 /* Animation Experiments */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		04B9046A2847A50E00FF56D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04B9049F2847E1C800FF56D3 /* Pose.cpp in Sources */,
+				04B904C02847E22700FF56D3 /* main.cpp in Sources */,
+				04B904A12847E1C800FF56D3 /* TransformTrack.cpp in Sources */,
+				04B904B52847E22700FF56D3 /* window.cpp in Sources */,
+				043A2D7F2847F1B0001E6F77 /* imgui_tables.cpp in Sources */,
+				04B9052D2847F04E00FF56D3 /* imgui.cpp in Sources */,
+				04B9050F2847EC1C00FF56D3 /* glad.c in Sources */,
+				04B9052C2847F04E00FF56D3 /* imgui_demo.cpp in Sources */,
+				04B905112847EC3100FF56D3 /* cgltf.c in Sources */,
+				04B9052E2847F04E00FF56D3 /* imgui_impl_glfw.cpp in Sources */,
+				04B9050D2847EC0D00FF56D3 /* stb_image.cpp in Sources */,
+				04B904DA2847E2BB00FF56D3 /* Transform.cpp in Sources */,
+				04B904C72847E25400FF56D3 /* GLTFLoader.cpp in Sources */,
+				04B9049E2847E1C800FF56D3 /* RearrangeBones.cpp in Sources */,
+				04B9052F2847F04E00FF56D3 /* imgui_widgets.cpp in Sources */,
+				04B9049D2847E1C800FF56D3 /* Clip.cpp in Sources */,
+				04B904A22847E1C800FF56D3 /* Skeleton.cpp in Sources */,
+				04B904BF2847E22700FF56D3 /* AnimatedMesh.cpp in Sources */,
+				04B904C12847E22700FF56D3 /* shader.cpp in Sources */,
+				04B905302847F04E00FF56D3 /* imgui_impl_opengl3.cpp in Sources */,
+				04B905312847F04E00FF56D3 /* imgui_draw.cpp in Sources */,
+				04B904DB2847E2BB00FF56D3 /* quat.cpp in Sources */,
+				04B904B72847E22700FF56D3 /* game.cpp in Sources */,
+				04B904B42847E22700FF56D3 /* texture_loader.cpp in Sources */,
+				04B904B82847E22700FF56D3 /* ModelViewerState.cpp in Sources */,
+				04B9049C2847E1C800FF56D3 /* SkeletonViewer.cpp in Sources */,
+				043A2D832849040C001E6F77 /* TrackVisualizer.cpp in Sources */,
+				04B904BE2847E22700FF56D3 /* finite_state_machine.cpp in Sources */,
+				04B904A32847E1C800FF56D3 /* Track.cpp in Sources */,
+				04B904B32847E22700FF56D3 /* Camera3.cpp in Sources */,
+				04B904BB2847E22700FF56D3 /* texture.cpp in Sources */,
+				04B904BD2847E22700FF56D3 /* shader_loader.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		04B904732847A50E00FF56D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		04B904742847A50E00FF56D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		04B904762847A50E00FF56D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					../../dependencies/cgltf,
+					../../dependencies/glad,
+					../../dependencies/GLFW,
+					../../dependencies/glm,
+					../../dependencies/imgui,
+					../../dependencies/stb_image,
+					../../dependencies/KHR,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		04B904772847A50E00FF56D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				HEADER_SEARCH_PATHS = (
+					../../dependencies/cgltf,
+					../../dependencies/glad,
+					../../dependencies/GLFW,
+					../../dependencies/glm,
+					../../dependencies/imgui,
+					../../dependencies/stb_image,
+					../../dependencies/KHR,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		04B904692847A50D00FF56D3 /* Build configuration list for PBXProject "Animation Experiments" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04B904732847A50E00FF56D3 /* Debug */,
+				04B904742847A50E00FF56D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04B904752847A50E00FF56D3 /* Build configuration list for PBXNativeTarget "Animation Experiments" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04B904762847A50E00FF56D3 /* Debug */,
+				04B904772847A50E00FF56D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 04B904662847A50D00FF56D3 /* Project object */;
+}

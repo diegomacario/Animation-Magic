@@ -1,0 +1,11 @@
+# Build results
+CMakeFiles
+*.data
+*.html
+*.js
+*.wasm
+*.wasm.map
+*.ninja*
+*.cmake
+*.txt
+Makefile
