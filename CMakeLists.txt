@@ -13,37 +13,22 @@ include_directories("${CMAKE_SOURCE_DIR}/inc"
 
 set(project_headers
     inc/AnimatedMesh.h
-    inc/Blending.h
     inc/Camera3.h
-    inc/CCDSolver.h
     inc/Clip.h
-    inc/CrossFadeControllerMultiple.h
-    inc/CrossFadeTarget.h
-    inc/FABRIKSolver.h
     inc/finite_state_machine.h
     inc/Frame.h
     inc/game.h
     inc/GLTFLoader.h
-    inc/IKCrossFadeController.h
-    inc/IKCrossFadeTarget.h
-    inc/IKLeg.h
-    inc/IKMovementState.h
-    inc/IKState.h
     inc/Interpolation.h
-    inc/Intersection.h
     inc/ModelViewerState.h
-    inc/MovementState.h
     inc/Pose.h
     inc/quat.h
-    inc/Ray.h
     inc/RearrangeBones.h
     inc/resource_manager.h
     inc/shader.h
     inc/shader_loader.h
     inc/Skeleton.h
     inc/SkeletonViewer.h
-    inc/SkeletonViewerClipped.h
-    inc/Sky.h
     inc/state.h
     inc/texture.h
     inc/texture_loader.h
@@ -51,49 +36,30 @@ set(project_headers
     inc/TrackVisualizer.h
     inc/Transform.h
     inc/TransformTrack.h
-    inc/Triangle.h
-    inc/Water.h
     inc/window.h)
 
 set(project_sources
     src/AnimatedMesh.cpp
-    src/Blending.cpp
     src/Camera3.cpp
-    src/CCDSolver.cpp
     src/Clip.cpp
-    src/CrossFadeControllerMultiple.cpp
-    src/CrossFadeTarget.cpp
-    src/FABRIKSolver.cpp
     src/finite_state_machine.cpp
     src/game.cpp
     src/GLTFLoader.cpp
-    src/IKCrossFadeController.cpp
-    src/IKCrossFadeTarget.cpp
-    src/IKLeg.cpp
-    src/IKMovementState.cpp
-    src/IKState.cpp
-    src/Intersection.cpp
     src/main.cpp
     src/ModelViewerState.cpp
-    src/MovementState.cpp
     src/Pose.cpp
     src/quat.cpp
-    src/Ray.cpp
     src/RearrangeBones.cpp
     src/shader.cpp
     src/shader_loader.cpp
     src/Skeleton.cpp
     src/SkeletonViewer.cpp
-    src/SkeletonViewerClipped.cpp
-    src/Sky.cpp
     src/texture.cpp
     src/texture_loader.cpp
     src/Track.cpp
     src/TrackVisualizer.cpp
     src/Transform.cpp
     src/TransformTrack.cpp
-    src/Triangle.cpp
-    src/Water.cpp
     src/window.cpp
     dependencies/cgltf/cgltf/cgltf.c
     dependencies/imgui/imgui/imgui.cpp
