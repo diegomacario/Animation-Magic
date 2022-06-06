@@ -28,6 +28,7 @@ AnimatedMesh::AnimatedMesh(AnimatedMesh&& rhs) noexcept
    , mWeights(std::move(rhs.mWeights))
    , mInfluences(std::move(rhs.mInfluences))
    , mIndices(std::move(rhs.mIndices))
+   , mNumVertices(std::exchange(rhs.mNumVertices, 0))
    , mNumIndices(std::exchange(rhs.mNumIndices, 0))
    , mVAO(std::exchange(rhs.mVAO, 0))
    , mVBOs(std::exchange(rhs.mVBOs, std::array<unsigned int, 5>()))
@@ -38,16 +39,17 @@ AnimatedMesh::AnimatedMesh(AnimatedMesh&& rhs) noexcept
 
 AnimatedMesh& AnimatedMesh::operator=(AnimatedMesh&& rhs) noexcept
 {
-   mPositions  = std::move(rhs.mPositions);
-   mNormals    = std::move(rhs.mNormals);
-   mTexCoords  = std::move(rhs.mTexCoords);
-   mWeights    = std::move(rhs.mWeights);
-   mInfluences = std::move(rhs.mInfluences);
-   mIndices    = std::move(rhs.mIndices);
-   mNumIndices = std::exchange(rhs.mNumIndices, 0);
-   mVAO        = std::exchange(rhs.mVAO, 0);
-   mVBOs       = std::exchange(rhs.mVBOs, std::array<unsigned int, 5>());
-   mEBO        = std::exchange(rhs.mEBO, 0);
+   mPositions   = std::move(rhs.mPositions);
+   mNormals     = std::move(rhs.mNormals);
+   mTexCoords   = std::move(rhs.mTexCoords);
+   mWeights     = std::move(rhs.mWeights);
+   mInfluences  = std::move(rhs.mInfluences);
+   mIndices     = std::move(rhs.mIndices);
+   mNumVertices = std::exchange(rhs.mNumVertices, 0);
+   mNumIndices  = std::exchange(rhs.mNumIndices, 0);
+   mVAO         = std::exchange(rhs.mVAO, 0);
+   mVBOs        = std::exchange(rhs.mVBOs, std::array<unsigned int, 5>());
+   mEBO         = std::exchange(rhs.mEBO, 0);
    return *this;
 }
 
@@ -90,6 +92,20 @@ void AnimatedMesh::LoadBuffers()
    // Unbind the VAO first, then the EBO
    glBindVertexArray(0);
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+   mNumVertices = static_cast<unsigned int>(mPositions.size());
+   mNumIndices = static_cast<unsigned int>(mIndices.size());
+}
+
+void AnimatedMesh::ClearMeshData()
+{
+   // This data has already been passed to the GPU, so it's not necessary to store it anymore
+   mPositions.clear();
+   mNormals.clear();
+   mTexCoords.clear();
+   mWeights.clear();
+   mInfluences.clear();
+   mIndices.clear();
 }
 
 void AnimatedMesh::ConfigureVAO(int posAttribLocation,
@@ -166,14 +182,13 @@ void AnimatedMesh::Render()
 {
    glBindVertexArray(mVAO);
 
-   if (mIndices.size() > 0)
+   if (mNumIndices > 0)
    {
-      // TODO: Use mNumIndices here
-      glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(mIndices.size()), GL_UNSIGNED_INT, 0);
+      glDrawElements(GL_TRIANGLES, mNumIndices, GL_UNSIGNED_INT, 0);
    }
    else
    {
-      glDrawArrays(GL_TRIANGLES, 0, static_cast<unsigned int>(mPositions.size()));
+      glDrawArrays(GL_TRIANGLES, 0, mNumVertices);
    }
 
    glBindVertexArray(0);
@@ -185,14 +200,13 @@ void AnimatedMesh::RenderInstanced(unsigned int numInstances)
 {
    glBindVertexArray(mVAO);
 
-   if (mIndices.size() > 0)
+   if (mNumIndices > 0)
    {
-      // TODO: Use mNumIndices here
-      glDrawElementsInstanced(GL_TRIANGLES, static_cast<unsigned int>(mIndices.size()), GL_UNSIGNED_INT, 0, numInstances);
+      glDrawElementsInstanced(GL_TRIANGLES, mNumIndices, GL_UNSIGNED_INT, 0, numInstances);
    }
    else
    {
-      glDrawArraysInstanced(GL_TRIANGLES, 0, static_cast<unsigned int>(mPositions.size()), numInstances);
+      glDrawArraysInstanced(GL_TRIANGLES, 0, mNumVertices, numInstances);
    }
 
    glBindVertexArray(0);

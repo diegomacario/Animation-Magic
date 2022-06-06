@@ -27,6 +27,7 @@ public:
    std::vector<unsigned int>& GetIndices()    { return mIndices;    }
 
    void                       LoadBuffers();
+   void                       ClearMeshData();
 
    void                       ConfigureVAO(int posAttribLocation,
                                            int normalAttribLocation,
@@ -65,7 +66,8 @@ private:
       influences = 4
    };
 
-   unsigned int                mNumIndices; // TODO: Unused and never initialized for now
+   unsigned int                mNumVertices;
+   unsigned int                mNumIndices;
    unsigned int                mVAO;
    std::array<unsigned int, 5> mVBOs;
    unsigned int                mEBO;

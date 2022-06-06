@@ -35,6 +35,9 @@ public:
 
 private:
 
+   void loadCharacters();
+   void loadGround();
+
    void configureLights(const std::shared_ptr<Shader>& shader);
 
    void userInterface();
@@ -43,47 +46,51 @@ private:
 
    void resetCamera();
 
-   std::shared_ptr<FiniteStateMachine> mFSM;
+   std::shared_ptr<FiniteStateMachine>    mFSM;
 
-   std::shared_ptr<Window>             mWindow;
+   std::shared_ptr<Window>                mWindow;
 
-   Camera3                             mCamera3;
+   Camera3                                mCamera3;
 
-   std::vector<AnimatedMesh>           mGroundMeshes;
-   std::shared_ptr<Texture>            mGroundTexture;
-   std::shared_ptr<Shader>             mGroundShader;
+   std::vector<AnimatedMesh>              mGroundMeshes;
+   std::shared_ptr<Texture>               mGroundTexture;
+   std::shared_ptr<Shader>                mGroundShader;
 
-   std::shared_ptr<Shader>   mAnimatedMeshShader;
-   std::shared_ptr<Texture>  mCharacterTexture;
-   Skeleton                  mCharacterSkeleton;
-   std::vector<AnimatedMesh> mCharacterMeshes;
-   std::vector<FastClip>     mCharacterClips;
-   std::string               mCharacterClipNames;
+   std::shared_ptr<Shader>                mAnimatedMeshShader;
+   std::vector<std::shared_ptr<Texture>>  mCharacterTextures;
+   std::vector<Skeleton>                  mCharacterBaseSkeletons;
+   Skeleton                               mCharacterSkeleton;
+   std::vector<std::vector<AnimatedMesh>> mCharacterMeshes;
+   std::vector<std::vector<FastClip>>     mCharacterClips;
+   std::string                            mCharacterNames;
+   std::vector<std::string>               mCharacterClipNames;
 
-   unsigned int              mCurrentClipIndex = 0;
-   float                     mPlaybackTime = 0.0f;
-   Pose                      mPose;
-   std::vector<glm::mat4>    mPosePalette;
-   std::vector<glm::mat4>    mSkinMatrices;
-   Transform                 mModelTransform;
+   unsigned int                           mCurrentCharacterIndex;
+   std::vector<unsigned int>              mCurrentClipIndex;
+   float                                  mPlaybackTime = 0.0f;
+   Pose                                   mPose;
+   std::vector<glm::mat4>                 mPosePalette;
+   std::vector<glm::mat4>                 mSkinMatrices;
+   Transform                              mModelTransform;
 
-   int                       mSelectedClip;
-   float                     mSelectedPlaybackSpeed;
-   bool                      mDisplayGround;
-   bool                      mDisplayGraphs;
-   bool                      mDisplayMesh;
-   bool                      mDisplayBones;
-   bool                      mDisplayJoints;
+   int                                    mSelectedCharacter;
+   int                                    mSelectedClip;
+   float                                  mSelectedPlaybackSpeed;
+   bool                                   mDisplayGround;
+   bool                                   mDisplayGraphs;
+   bool                                   mDisplayMesh;
+   bool                                   mDisplayBones;
+   bool                                   mDisplayJoints;
 #ifndef __EMSCRIPTEN__
-   bool                      mWireframeModeForCharacter;
-   bool                      mWireframeModeForJoints;
-   bool                      mPerformDepthTesting;
+   bool                                   mWireframeModeForCharacter;
+   bool                                   mWireframeModeForJoints;
+   bool                                   mPerformDepthTesting;
 #endif
 
-   bool                      mPause = false;
+   bool                                   mPause = false;
 
-   SkeletonViewer            mSkeletonViewer;
-   TrackVisualizer           mTrackVisualizer;
+   SkeletonViewer                         mSkeletonViewer;
+   TrackVisualizer                        mTrackVisualizer;
 };
 
 #endif
