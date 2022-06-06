@@ -24,7 +24,7 @@ public:
    void UpdateBones(const Pose& animatedPose, const std::vector<glm::mat4>& animatedPosePalette);
 
    void RenderBones(const Transform& model, const glm::mat4& projectionView);
-   void RenderJoints(const Transform& model, const glm::mat4& projectionView, const std::vector<glm::mat4>& animatedPosePalette);
+   void RenderJoints(const Transform& model, const glm::mat4& projectionView, const std::vector<glm::mat4>& animatedPosePalette, float scaleFactor);
 
 private:
 
@@ -49,6 +49,8 @@ private:
    std::array<glm::vec3, 3> mBoneColorPalette;
    std::vector<glm::vec3>   mBonePositions;
    std::vector<glm::vec3>   mBoneColors;
+
+   bool                     mInitialized;
 };
 
 #endif

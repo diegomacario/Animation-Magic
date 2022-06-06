@@ -71,7 +71,8 @@ private:
    Pose                                   mPose;
    std::vector<glm::mat4>                 mPosePalette;
    std::vector<glm::mat4>                 mSkinMatrices;
-   Transform                              mModelTransform;
+   std::vector<Transform>                 mModelTransform;
+   std::vector<float>                     mJointScaleFactors;
 
    int                                    mSelectedCharacter;
    int                                    mSelectedClip;

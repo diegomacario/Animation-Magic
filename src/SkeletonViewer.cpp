@@ -19,6 +19,7 @@ SkeletonViewer::SkeletonViewer()
    , mBoneColorPalette{glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.65f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f)}
    , mBonePositions()
    , mBoneColors()
+   , mInitialized(false)
 {
    glGenVertexArrays(1, &mBonesVAO);
    glGenBuffers(1, &mBonesVBO);
@@ -92,8 +93,22 @@ SkeletonViewer& SkeletonViewer::operator=(SkeletonViewer&& rhs) noexcept
 
 void SkeletonViewer::InitializeBones(const Pose& pose)
 {
+   if (mInitialized)
+   {
+      // Reset
+      glDeleteVertexArrays(1, &mBonesVAO);
+      glDeleteBuffers(1, &mBonesVBO);
+
+      glGenVertexArrays(1, &mBonesVAO);
+      glGenBuffers(1, &mBonesVBO);
+
+      mBonePositions.clear();
+      mBoneColors.clear();
+   }
+
    ResizeBoneContainers(pose);
    ConfigureBonesVAO(mBoneShader->getAttributeLocation("inPos"), mBoneShader->getAttributeLocation("inCol"));
+   mInitialized = true;
 }
 
 void SkeletonViewer::UpdateBones(const Pose& animatedPose, const std::vector<glm::mat4>& animatedPosePalette)
@@ -245,7 +260,7 @@ void SkeletonViewer::RenderBones(const Transform& model, const glm::mat4& projec
    mBoneShader->use(false);
 }
 
-void SkeletonViewer::RenderJoints(const Transform& model, const glm::mat4& projectionView, const std::vector<glm::mat4>& animatedPosePalette)
+void SkeletonViewer::RenderJoints(const Transform& model, const glm::mat4& projectionView, const std::vector<glm::mat4>& animatedPosePalette, float scaleFactor)
 {
    // We need to combine 3 transforms:
    // - The model transform of the entire 3D character
@@ -261,7 +276,7 @@ void SkeletonViewer::RenderJoints(const Transform& model, const glm::mat4& proje
    // 3) Scale the pyramids in place at their joints
 
    // Scale transform to increase the size of the little pyramids that represent the joints
-   Transform jointScale(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(7.5f));
+   Transform jointScale(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(scaleFactor));
 
    // Loop over all the transforms of the pose
    std::vector<glm::mat4> combinedTransforms(animatedPosePalette.size());

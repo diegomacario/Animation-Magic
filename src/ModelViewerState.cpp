@@ -49,12 +49,17 @@ void ModelViewerState::initializeState()
    mPause = false;
 
    // Set the initial character
-   mSelectedCharacter = 0;
-   mCurrentCharacterIndex = 0;
+   mSelectedCharacter = 0;     // Woman
+   mCurrentCharacterIndex = 0; // Woman
 
    // Set the initial clip
-   mSelectedClip = 7;
-   mCurrentClipIndex = {7, 6, 6, 6, 6, 0};
+   mSelectedClip = 7;         // Woman  - Walk
+   mCurrentClipIndex = { 7,   // Woman  - Walk
+                         1,   // George - Hello
+                         0,   // Leela  - Dance
+                         5,   // Mike   - Run
+                         7,   // Stan   - Yes
+                         0 }; // Pistol - Fire
 
    // Set the initial playback speed
    mSelectedPlaybackSpeed = 1.0f;
@@ -76,7 +81,19 @@ void ModelViewerState::initializeState()
    mPose = mCharacterSkeleton.GetRestPose();
 
    // Set the model transform
-   mModelTransform = Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(1.0f));
+   mModelTransform = { Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(1.0f)),    // Woman
+                       Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // George
+                       Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // Leela
+                       Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // Mike
+                       Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // Stan
+                       Transform(glm::vec3(0.2f, 2.45f, 0.0f), Q::quat(), glm::vec3(0.5f)) }; // Pistol
+
+   mJointScaleFactors = { 7.5f,   // Woman
+                          0.1f,   // George
+                          0.1f,   // Leela
+                          0.1f,   // Mike
+                          0.1f,   // Stan
+                          0.3f }; // Pistol
 
    // Reset the track visualizer
    mTrackVisualizer.setTracks(mCharacterClips[mCurrentCharacterIndex][mCurrentClipIndex[mCurrentCharacterIndex]].GetTransformTracks());
@@ -165,6 +182,9 @@ void ModelViewerState::update(float deltaTime)
       mPlaybackTime = 0.0f;
 
       mSelectedClip = mCurrentClipIndex[mCurrentCharacterIndex];
+
+      // Reset the skeleton viewer
+      mSkeletonViewer.InitializeBones(mPose);
 
       // Reset the track visualizer
       mTrackVisualizer.setTracks(mCharacterClips[mCurrentCharacterIndex][mCurrentClipIndex[mCurrentCharacterIndex]].GetTransformTracks());
@@ -265,7 +285,7 @@ void ModelViewerState::render()
    if (mDisplayMesh)
    {
       mAnimatedMeshShader->use(true);
-      mAnimatedMeshShader->setUniformMat4("model",      transformToMat4(mModelTransform));
+      mAnimatedMeshShader->setUniformMat4("model",      transformToMat4(mModelTransform[mCurrentCharacterIndex]));
       mAnimatedMeshShader->setUniformMat4("view",       mCamera3.getViewMatrix());
       mAnimatedMeshShader->setUniformMat4("projection", mCamera3.getPerspectiveProjectionMatrix());
       mAnimatedMeshShader->setUniformMat4Array("animated[0]", mSkinMatrices);
@@ -300,7 +320,7 @@ void ModelViewerState::render()
    // Render the bones
    if (mDisplayBones)
    {
-      mSkeletonViewer.RenderBones(mModelTransform, mCamera3.getPerspectiveProjectionViewMatrix());
+      mSkeletonViewer.RenderBones(mModelTransform[mCurrentCharacterIndex], mCamera3.getPerspectiveProjectionViewMatrix());
    }
 
    glLineWidth(1.0f);
@@ -315,7 +335,7 @@ void ModelViewerState::render()
    // Render the joints
    if (mDisplayJoints)
    {
-      mSkeletonViewer.RenderJoints(mModelTransform, mCamera3.getPerspectiveProjectionViewMatrix(), mPosePalette);
+      mSkeletonViewer.RenderJoints(mModelTransform[mCurrentCharacterIndex], mCamera3.getPerspectiveProjectionViewMatrix(), mPosePalette, mJointScaleFactors[mCurrentCharacterIndex]);
    }
 
 #ifndef __EMSCRIPTEN__
