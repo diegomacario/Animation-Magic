@@ -141,6 +141,10 @@ bool Window::initialize()
 
    glEnable(GL_CULL_FACE);
 
+#ifndef __EMSCRIPTEN__
+   glEnable(GL_LINE_SMOOTH);
+#endif
+
    glfwGetFramebufferSize(mWindow, &mWidthOfFramebufferInPix, &mHeightOfFramebufferInPix);
 
 #ifndef __EMSCRIPTEN__

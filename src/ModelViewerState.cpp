@@ -302,7 +302,7 @@ void ModelViewerState::render()
 
       // Loop over the meshes and render each one
       for (unsigned int i = 0,
-           size = static_cast<unsigned int>(mCharacterMeshes.size());
+           size = static_cast<unsigned int>(mCharacterMeshes[mCurrentCharacterIndex].size());
            i < size;
            ++i)
       {
@@ -324,15 +324,11 @@ void ModelViewerState::render()
    }
 #endif
 
-   glLineWidth(2.0f);
-
    // Render the bones
    if (mDisplayBones)
    {
       mSkeletonViewer.RenderBones(mModelTransform[mCurrentCharacterIndex], mCamera3.getPerspectiveProjectionViewMatrix());
    }
-
-   glLineWidth(1.0f);
 
 #ifndef __EMSCRIPTEN__
    if (mWireframeModeForJoints)
