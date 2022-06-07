@@ -353,6 +353,17 @@ void TrackVisualizer::initializeTrackLines()
             if (sample.w > maxSamples.w) maxSamples.w = sample.w;
          }
 
+         glm::vec4 inverseSampleRange;
+         inverseSampleRange.x = 1.0f / (maxSamples.x - minSamples.x);
+         inverseSampleRange.y = 1.0f / (maxSamples.y - minSamples.y);
+         inverseSampleRange.z = 1.0f / (maxSamples.z - minSamples.z);
+         inverseSampleRange.w = 1.0f / (maxSamples.w - minSamples.w);
+
+         if (std::isinf(inverseSampleRange.x)) inverseSampleRange.x = 1.0f;
+         if (std::isinf(inverseSampleRange.y)) inverseSampleRange.y = 1.0f;
+         if (std::isinf(inverseSampleRange.z)) inverseSampleRange.z = 1.0f;
+         if (std::isinf(inverseSampleRange.w)) inverseSampleRange.w = 1.0f;
+
          for (int sampleIndex = 1; sampleIndex < 600; ++sampleIndex)
          {
             float currSampleIndexNormalized = static_cast<float>(sampleIndex - 1) / 599.0f;
@@ -370,8 +381,8 @@ void TrackVisualizer::initializeTrackLines()
             glm::vec4 currSampleNormalized, nextSampleNormalized;
             for (int k = 0; k < 4; ++k)
             {
-               currSampleNormalized[k] = yPosOfOriginOfGraph + (((currSample[k] - minSamples[k]) / (maxSamples[k] - minSamples[k])) * mGraphHeight);
-               nextSampleNormalized[k] = yPosOfOriginOfGraph + (((nextSample[k] - minSamples[k]) / (maxSamples[k] - minSamples[k])) * mGraphHeight);
+               currSampleNormalized[k] = yPosOfOriginOfGraph + (((currSample[k] - minSamples[k]) * inverseSampleRange[k]) * mGraphHeight);
+               nextSampleNormalized[k] = yPosOfOriginOfGraph + (((nextSample[k] - minSamples[k]) * inverseSampleRange[k]) * mGraphHeight);
             }
 
             mTrackLines[curveIndex].push_back(glm::vec3(currX, currSampleNormalized.x, 3.0f));
