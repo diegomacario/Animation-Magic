@@ -24,6 +24,6 @@ void main()
    gl_Position = projection * view * model * skin * vec4(position, 1.0f);
 
    fragPos = vec3(model * skin * vec4(position, 1.0f));
-   norm    = vec3(model * skin * vec4(normal, 0.0f));
+   norm    = normalize(vec3(model * skin * vec4(normal, 0.0f)));
    uv      = texCoord;
 }

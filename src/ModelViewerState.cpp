@@ -61,7 +61,7 @@ void ModelViewerState::initializeState()
                          0,   // Leela  - Dance
                          5,   // Mike   - Walk
                          2,   // Stan   - Idle
-                         3,   // Zombie - Walk
+                         5,   // Zombie - Walk
                          0 }; // Pistol - Fire
 
    // Set the initial playback speed
@@ -91,7 +91,7 @@ void ModelViewerState::initializeState()
                        Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // Leela
                        Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // Mike
                        Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // Stan
-                       Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.95f)),   // Zombie
+                       Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.7f)),    // Zombie
                        Transform(glm::vec3(0.2f, 2.45f, 0.0f), Q::quat(), glm::vec3(0.5f)) }; // Pistol
 
    mJointScaleFactors = { 7.5f,   // Woman
