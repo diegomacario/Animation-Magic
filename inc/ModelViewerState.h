@@ -28,7 +28,7 @@ public:
    void initializeState();
 
    void enter() override;
-   void processInput(float deltaTime) override;
+   void processInput() override;
    void update(float deltaTime) override;
    void render() override;
    void exit() override;

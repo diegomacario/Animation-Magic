@@ -115,7 +115,7 @@ void ModelViewerState::enter()
    resetScene();
 }
 
-void ModelViewerState::processInput(float deltaTime)
+void ModelViewerState::processInput()
 {
    // Close the game
    if (mWindow->keyIsPressed(GLFW_KEY_ESCAPE)) { mWindow->setShouldClose(true); }

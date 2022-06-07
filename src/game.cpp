@@ -44,21 +44,41 @@ bool Game::initialize(const std::string& title)
 #ifdef __EMSCRIPTEN__
 void Game::executeGameLoop()
 {
-   static double lastFrame = 0.0;
+   static double lastFrame = glfwGetTime();
+   static double simulationTimeSeconds = 0.0;
+   static float fixedDelta = 1.0f / 60.0f;
 
    double currentFrame = glfwGetTime();
    float deltaTime     = static_cast<float>(currentFrame - lastFrame);
    lastFrame           = currentFrame;
+   simulationTimeSeconds += deltaTime;
 
-   mFSM->processInputInCurrentState(deltaTime);
-   mFSM->updateCurrentState(deltaTime);
+   // Simulation time got very big, which probably means the browser window or tab running the game went
+   // out of focus so the game loop stopped executing. This affects many systems in a bad way. Clamp it down
+   // to something normal
+   if (simulationTimeSeconds > 4)
+   {
+      simulationTimeSeconds = fixedDelta; // 1 frame of simulation
+   }
+
+   mFSM->processInputInCurrentState();
+
+   while (simulationTimeSeconds >= fixedDelta)
+   {
+      mFSM->updateCurrentState(fixedDelta);
+      simulationTimeSeconds -= fixedDelta;
+   }
+
    mFSM->renderCurrentState();
 }
 #else
 void Game::executeGameLoop()
 {
+   double simulationTimeSeconds = 0.0;
+   const float fixedDelta = 1.0f / 60.0f;
+
    double currentFrame = 0.0;
-   double lastFrame    = 0.0;
+   double lastFrame    = glfwGetTime();
    float  deltaTime    = 0.0f;
 
    while (!mWindow->shouldClose())
@@ -66,9 +86,15 @@ void Game::executeGameLoop()
       currentFrame = glfwGetTime();
       deltaTime    = static_cast<float>(currentFrame - lastFrame);
       lastFrame    = currentFrame;
+      simulationTimeSeconds += deltaTime;
 
-      mFSM->processInputInCurrentState(deltaTime);
-      mFSM->updateCurrentState(deltaTime);
+      mFSM->processInputInCurrentState();
+
+      while (simulationTimeSeconds >= fixedDelta) {
+         mFSM->updateCurrentState(fixedDelta);
+         simulationTimeSeconds -= fixedDelta;
+      }
+
       mFSM->renderCurrentState();
    }
 }
