@@ -16,6 +16,7 @@ TrackVisualizer::TrackVisualizer()
    , mNumGraphs(0)
    , mNumCurves(0)
    , mNumTiles(0)
+   , mNumEmptyRows(0)
    , mTileWidth(0.0f)
    , mTileHeight(0.0f)
    , mTileHorizontalOffset(0.0f)
@@ -66,7 +67,6 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
       mTrackLinesVBOs.clear();
    }
 
-   std::cout << "Num Joints: " << tracks.size() << '\n';
    unsigned int numDiscardedTracks = 0;
 
    // Determine which tracks are valid and store their min samples and inverse sample ranges
@@ -118,8 +118,6 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
       }
    }
 
-   std::cout << "Num Discarded: " << numDiscardedTracks << '\n';
-
    mNumGraphs = static_cast<unsigned int>(mTracks.size());
    mNumCurves = mNumGraphs * 4;
    mNumTiles  = static_cast<unsigned int>(glm::sqrt(mNumGraphs));
@@ -128,8 +126,16 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
       ++mNumTiles;
    }
 
-   std::cout << "Num Graphs: " << mNumGraphs << '\n';
-   std::cout << "Num Tiles: " << mNumTiles * mNumTiles << '\n' << '\n';
+   mNumEmptyRows = 0;
+   int emptyTiles = (mNumTiles * mNumTiles) - mNumGraphs;
+   while (emptyTiles > 0)
+   {
+      emptyTiles -= mNumTiles;
+      if (emptyTiles >= 0)
+      {
+         ++mNumEmptyRows;
+      }
+   }
 
    mTileWidth  = (mWidthOfGraphSpace * (1280.0f / 720.0f)) / mNumTiles;
    mTileHeight = mHeightOfGraphSpace / mNumTiles;
@@ -328,7 +334,14 @@ void TrackVisualizer::initializeReferenceLines()
    int trackIndex = 0;
    for (int j = 0; j < mNumTiles; ++j)
    {
-      float yPosOfOriginOfGraph = (mTileHeight * j) + (mTileVerticalOffset / 2.0f);
+      if (j > (mNumTiles - mNumEmptyRows - 1))
+      {
+         // Skip empty rows
+         break;
+      }
+
+      float emptyRowOffset = (mNumEmptyRows * mTileHeight * 0.5f);
+      float yPosOfOriginOfGraph = (mTileHeight * j) + (mTileVerticalOffset / 2.0f) + emptyRowOffset;
 
       for (int i = 0; i < mNumTiles; ++i)
       {
@@ -378,7 +391,14 @@ void TrackVisualizer::initializeTrackLines()
    unsigned int curveIndex = 0;
    for (int j = 0; j < mNumTiles; ++j)
    {
-      float yPosOfOriginOfGraph = (mTileHeight * j) + (mTileVerticalOffset / 2.0f);
+      if (j > (mNumTiles - mNumEmptyRows - 1))
+      {
+         // Skip empty rows
+         break;
+      }
+
+      float emptyRowOffset = (mNumEmptyRows * mTileHeight * 0.5f);
+      float yPosOfOriginOfGraph = (mTileHeight * j) + (mTileVerticalOffset / 2.0f) + emptyRowOffset;
 
       for (int i = 0; i < mNumTiles; ++i)
       {

@@ -32,6 +32,7 @@ private:
    unsigned int                        mNumGraphs;
    unsigned int                        mNumCurves;
    unsigned int                        mNumTiles;
+   unsigned int                        mNumEmptyRows;
    float                               mTileWidth;
    float                               mTileHeight;
    float                               mTileHorizontalOffset;
