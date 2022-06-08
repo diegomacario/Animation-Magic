@@ -25,8 +25,8 @@ TrackVisualizer::TrackVisualizer()
    , mGraphHeight(0.0f)
    , mReferenceLinesVAO(0)
    , mReferenceLinesVBO(0)
-   , mEmptyLinesVAO(0)
-   , mEmptyLinesVBO(0)
+   , mEmptyLinesVAO{0, 0, 0, 0}
+   , mEmptyLinesVBO{0, 0, 0, 0}
    , mTrackLinesVAOs()
    , mTrackLinesVBOs()
    , mTracks()
@@ -61,8 +61,11 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
       deleteBuffers();
       mReferenceLinesVAO = 0;
       mReferenceLinesVBO = 0;
-      mEmptyLinesVAO = 0;
-      mEmptyLinesVBO = 0;
+      for (int i = 0; i < 4; ++i)
+      {
+         mEmptyLinesVAO[i] = 0;
+         mEmptyLinesVBO[i] = 0;
+      }
       mTrackLinesVAOs.clear();
       mTrackLinesVBOs.clear();
    }
@@ -152,8 +155,8 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
    glGenVertexArrays(1, &mReferenceLinesVAO);
    glGenBuffers(1, &mReferenceLinesVBO);
 
-   glGenVertexArrays(1, &mEmptyLinesVAO);
-   glGenBuffers(1, &mEmptyLinesVBO);
+   glGenVertexArrays(4, mEmptyLinesVAO);
+   glGenBuffers(4, mEmptyLinesVBO);
 
    mTrackLinesVAOs.resize(mNumCurves);
    mTrackLinesVBOs.resize(mNumCurves);
@@ -168,11 +171,14 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
    glBindBuffer(GL_ARRAY_BUFFER, 0);
    glBindVertexArray(0);
 
-   glBindVertexArray(mEmptyLinesVAO);
-   glBindBuffer(GL_ARRAY_BUFFER, mEmptyLinesVBO);
-   glBufferData(GL_ARRAY_BUFFER, mEmptyLines.size() * sizeof(glm::vec3), &mEmptyLines[0], GL_STATIC_DRAW);
-   glBindBuffer(GL_ARRAY_BUFFER, 0);
-   glBindVertexArray(0);
+   for (int i = 0; i < 4; ++i)
+   {
+      glBindVertexArray(mEmptyLinesVAO[i]);
+      glBindBuffer(GL_ARRAY_BUFFER, mEmptyLinesVBO[i]);
+      glBufferData(GL_ARRAY_BUFFER, mEmptyLines[i].size() * sizeof(glm::vec3), &mEmptyLines[i][0], GL_STATIC_DRAW);
+      glBindBuffer(GL_ARRAY_BUFFER, 0);
+      glBindVertexArray(0);
+   }
 
    for (int i = 0; i < mNumCurves; ++i)
    {
@@ -194,12 +200,15 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
    glBindBuffer(GL_ARRAY_BUFFER, 0);
    glBindVertexArray(0);
 
-   glBindVertexArray(mEmptyLinesVAO);
-   glBindBuffer(GL_ARRAY_BUFFER, mEmptyLinesVBO);
-   glEnableVertexAttribArray(posAttribLocation);
-   glVertexAttribPointer(posAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-   glBindBuffer(GL_ARRAY_BUFFER, 0);
-   glBindVertexArray(0);
+   for (int i = 0; i < 4; ++i)
+   {
+      glBindVertexArray(mEmptyLinesVAO[i]);
+      glBindBuffer(GL_ARRAY_BUFFER, mEmptyLinesVBO[i]);
+      glEnableVertexAttribArray(posAttribLocation);
+      glVertexAttribPointer(posAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+      glBindBuffer(GL_ARRAY_BUFFER, 0);
+      glBindVertexArray(0);
+   }
 
    for (int i = 0; i < mNumCurves; ++i)
    {
@@ -313,10 +322,13 @@ void TrackVisualizer::render()
    glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(mReferenceLines.size()));
    glBindVertexArray(0);
 
-   mTrackShader->setUniformVec3("color", glm::vec3(0.0f, 1.0f, 0.0f));
-   glBindVertexArray(mEmptyLinesVAO);
-   glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(mEmptyLines.size()));
-   glBindVertexArray(0);
+   for (int i = 0; i < 4; ++i)
+   {
+      mTrackShader->setUniformVec3("color", mTrackLinesColorPalette[3 - (i % 4)]);
+      glBindVertexArray(mEmptyLinesVAO[i]);
+      glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(mEmptyLines[i].size()));
+      glBindVertexArray(0);
+   }
 
    for (int i = 0; i < mNumCurves; ++i)
    {
@@ -331,7 +343,9 @@ void TrackVisualizer::render()
 
 void TrackVisualizer::initializeReferenceLines()
 {
+   mEmptyLines.resize(4);
    unsigned int trackIndex = 0;
+   unsigned int emptyLineIndex = 0;
    for (int j = 0; j < mNumTiles; ++j)
    {
       if (j > (mNumTiles - mNumEmptyRows - 1))
@@ -353,8 +367,9 @@ void TrackVisualizer::initializeReferenceLines()
             //break;
 
             // Horizontal line
-            mEmptyLines.push_back(glm::vec3(xPosOfOriginOfGraph, yPosOfOriginOfGraph + mGraphHeight * 0.5f, 4.0f));
-            mEmptyLines.push_back(glm::vec3(xPosOfOriginOfGraph + mGraphWidth, yPosOfOriginOfGraph + mGraphHeight * 0.5f, 4.0f));
+            mEmptyLines[emptyLineIndex].push_back(glm::vec3(xPosOfOriginOfGraph, yPosOfOriginOfGraph + mGraphHeight * 0.5f, 4.0f));
+            mEmptyLines[emptyLineIndex].push_back(glm::vec3(xPosOfOriginOfGraph + mGraphWidth, yPosOfOriginOfGraph + mGraphHeight * 0.5f, 4.0f));
+            emptyLineIndex = (emptyLineIndex + 1) % 4;
          }
 
          // Y axis (left)
@@ -452,8 +467,8 @@ void TrackVisualizer::deleteBuffers()
    glDeleteVertexArrays(1, &mReferenceLinesVAO);
    glDeleteBuffers(1, &mReferenceLinesVBO);
 
-   glDeleteVertexArrays(1, &mEmptyLinesVAO);
-   glDeleteBuffers(1, &mEmptyLinesVBO);
+   glDeleteVertexArrays(4, mEmptyLinesVAO);
+   glDeleteBuffers(4, mEmptyLinesVBO);
 
    if (mTrackLinesVAOs.size() > 0)
    {

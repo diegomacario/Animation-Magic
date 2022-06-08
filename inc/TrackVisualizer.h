@@ -43,8 +43,8 @@ private:
    unsigned int                        mReferenceLinesVAO;
    unsigned int                        mReferenceLinesVBO;
 
-   unsigned int                        mEmptyLinesVAO;
-   unsigned int                        mEmptyLinesVBO;
+   unsigned int                        mEmptyLinesVAO[4];
+   unsigned int                        mEmptyLinesVBO[4];
 
    std::vector<unsigned int>           mTrackLinesVAOs;
    std::vector<unsigned int>           mTrackLinesVBOs;
@@ -55,7 +55,7 @@ private:
    std::vector<glm::vec4>              mMinSamples;
    std::vector<glm::vec4>              mInverseSampleRanges;
    std::vector<glm::vec3>              mReferenceLines;
-   std::vector<glm::vec3>              mEmptyLines;
+   std::vector<std::vector<glm::vec3>> mEmptyLines;
    std::vector<std::vector<glm::vec3>> mTrackLines;
 
    glm::vec3                           mTrackLinesColorPalette[4];
