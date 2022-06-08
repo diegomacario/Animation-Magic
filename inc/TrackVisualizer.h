@@ -17,7 +17,7 @@ public:
 
    void update(float deltaTime, float playbackSpeed);
 
-   void render();
+   void render(bool fillEmptyTilesWithRepeatedGraphs);
 
 private:
 
@@ -33,6 +33,7 @@ private:
    unsigned int                        mNumCurves;
    unsigned int                        mNumTiles;
    unsigned int                        mNumEmptyRows;
+   unsigned int                        mNumEmptyTilesInIncompleteRow;
    float                               mTileWidth;
    float                               mTileHeight;
    float                               mTileHorizontalOffset;

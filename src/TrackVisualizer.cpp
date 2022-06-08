@@ -17,6 +17,7 @@ TrackVisualizer::TrackVisualizer()
    , mNumCurves(0)
    , mNumTiles(0)
    , mNumEmptyRows(0)
+   , mNumEmptyTilesInIncompleteRow(0)
    , mTileWidth(0.0f)
    , mTileHeight(0.0f)
    , mTileHorizontalOffset(0.0f)
@@ -129,6 +130,7 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
       ++mNumTiles;
    }
 
+   // If there are empty rows, we don't render them
    mNumEmptyRows = 0;
    int numEmptyTiles = (mNumTiles * mNumTiles) - mNumGraphs;
    while (numEmptyTiles > 0)
@@ -139,6 +141,11 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
          ++mNumEmptyRows;
       }
    }
+
+   // If there is an incomplete row, we fill the empty tiles in it with repeated graphs
+   mNumEmptyTilesInIncompleteRow = (mNumTiles * mNumTiles) - mNumGraphs - (mNumEmptyRows * mNumTiles);
+   mNumGraphs += mNumEmptyTilesInIncompleteRow;
+   mNumCurves += (mNumEmptyTilesInIncompleteRow * 4);
 
    mTileWidth  = (mWidthOfGraphSpace * (1280.0f / 720.0f)) / mNumTiles;
    mTileHeight = mHeightOfGraphSpace / mNumTiles;
@@ -233,11 +240,6 @@ void TrackVisualizer::update(float deltaTime, float playbackSpeed)
    {
       for (int i = 0; i < mNumTiles; ++i)
       {
-         if (trackIndex >= mNumGraphs)
-         {
-            break;
-         }
-
          float xPosOfOriginOfGraph = (mTileWidth * i) + (mTileHorizontalOffset / 2.0f);
 
          for (int k = 0; k < 4; ++k)
@@ -299,7 +301,7 @@ void TrackVisualizer::update(float deltaTime, float playbackSpeed)
    }
 }
 
-void TrackVisualizer::render()
+void TrackVisualizer::render(bool fillEmptyTilesWithRepeatedGraphs)
 {
    mTrackShader->use(true);
 
@@ -322,15 +324,19 @@ void TrackVisualizer::render()
    glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(mReferenceLines.size()));
    glBindVertexArray(0);
 
-   for (int i = 0; i < 4; ++i)
+   if (!fillEmptyTilesWithRepeatedGraphs)
    {
-      mTrackShader->setUniformVec3("color", mTrackLinesColorPalette[3 - (i % 4)]);
-      glBindVertexArray(mEmptyLinesVAO[i]);
-      glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(mEmptyLines[i].size()));
-      glBindVertexArray(0);
+      for (int i = 0; i < 4; ++i)
+      {
+         mTrackShader->setUniformVec3("color", mTrackLinesColorPalette[3 - (i % 4)]);
+         glBindVertexArray(mEmptyLinesVAO[i]);
+         glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(mEmptyLines[i].size()));
+         glBindVertexArray(0);
+      }
    }
 
-   for (int i = 0; i < mNumCurves; ++i)
+   int numCurvesToRender = fillEmptyTilesWithRepeatedGraphs ? mNumCurves : mNumCurves - (mNumEmptyTilesInIncompleteRow * 4);
+   for (int i = 0; i < numCurvesToRender; ++i)
    {
       mTrackShader->setUniformVec3("color", mTrackLinesColorPalette[i % 4]);
       glBindVertexArray(mTrackLinesVAOs[i]);
@@ -361,11 +367,8 @@ void TrackVisualizer::initializeReferenceLines()
       {
          float xPosOfOriginOfGraph = (mTileWidth * i) + (mTileHorizontalOffset / 2.0f);
 
-         if (trackIndex >= mNumGraphs)
+         if (trackIndex >= (mNumGraphs - mNumEmptyTilesInIncompleteRow))
          {
-            // Uncomment this line if you don't want to see reference lines for empty graphs
-            //break;
-
             // Horizontal line
             mEmptyLines[emptyLineIndex].push_back(glm::vec3(xPosOfOriginOfGraph, yPosOfOriginOfGraph + mGraphHeight * 0.5f, 4.0f));
             mEmptyLines[emptyLineIndex].push_back(glm::vec3(xPosOfOriginOfGraph + mGraphWidth, yPosOfOriginOfGraph + mGraphHeight * 0.5f, 4.0f));
@@ -413,14 +416,12 @@ void TrackVisualizer::initializeTrackLines()
 
       for (int i = 0; i < mNumTiles; ++i)
       {
-         if (trackIndex >= mNumGraphs)
-         {
-            break;
-         }
+         // We wrap the track index to initialize the repeated graphs that fill the incomplete row
+         unsigned int wrappedTrackIndex = trackIndex % (mNumGraphs - mNumEmptyTilesInIncompleteRow);
 
          float xPosOfOriginOfGraph = (mTileWidth * i) + (mTileHorizontalOffset / 2.0f);
 
-         float trackDuration = mTracks[trackIndex].GetEndTime() - mTracks[trackIndex].GetStartTime();
+         float trackDuration = mTracks[wrappedTrackIndex].GetEndTime() - mTracks[wrappedTrackIndex].GetStartTime();
 
          for (int sampleIndex = 1; sampleIndex < 600; ++sampleIndex)
          {
@@ -430,8 +431,8 @@ void TrackVisualizer::initializeTrackLines()
             float currX = xPosOfOriginOfGraph + (currSampleIndexNormalized * mGraphWidth);
             float nextX = xPosOfOriginOfGraph + (nextSampleIndexNormalized * mGraphWidth);
 
-            Q::quat currSampleQuat = mTracks[trackIndex].Sample(currSampleIndexNormalized * trackDuration, false);
-            Q::quat nextSampleQuat = mTracks[trackIndex].Sample(nextSampleIndexNormalized * trackDuration, false);
+            Q::quat currSampleQuat = mTracks[wrappedTrackIndex].Sample(currSampleIndexNormalized * trackDuration, false);
+            Q::quat nextSampleQuat = mTracks[wrappedTrackIndex].Sample(nextSampleIndexNormalized * trackDuration, false);
 
             glm::vec4 currSample = glm::vec4(currSampleQuat.x, currSampleQuat.y, currSampleQuat.z, currSampleQuat.w);
             glm::vec4 nextSample = glm::vec4(nextSampleQuat.x, nextSampleQuat.y, nextSampleQuat.z, nextSampleQuat.w);
@@ -439,8 +440,8 @@ void TrackVisualizer::initializeTrackLines()
             glm::vec4 currSampleNormalized, nextSampleNormalized;
             for (int k = 0; k < 4; ++k)
             {
-               currSampleNormalized[k] = yPosOfOriginOfGraph + (((currSample[k] - mMinSamples[trackIndex][k]) * mInverseSampleRanges[trackIndex][k]) * mGraphHeight);
-               nextSampleNormalized[k] = yPosOfOriginOfGraph + (((nextSample[k] - mMinSamples[trackIndex][k]) * mInverseSampleRanges[trackIndex][k]) * mGraphHeight);
+               currSampleNormalized[k] = yPosOfOriginOfGraph + (((currSample[k] - mMinSamples[wrappedTrackIndex][k]) * mInverseSampleRanges[wrappedTrackIndex][k]) * mGraphHeight);
+               nextSampleNormalized[k] = yPosOfOriginOfGraph + (((nextSample[k] - mMinSamples[wrappedTrackIndex][k]) * mInverseSampleRanges[wrappedTrackIndex][k]) * mGraphHeight);
             }
 
             mTrackLines[curveIndex].push_back(glm::vec3(currX, currSampleNormalized.x, 3.0f));

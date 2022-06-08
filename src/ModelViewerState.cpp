@@ -72,6 +72,7 @@ void ModelViewerState::initializeState()
    mWireframeModeForJoints = false;
    mPerformDepthTesting = true;
 #endif
+   mFillEmptyTilesWithRepeatedGraphs = true;
 
    mCharacterSkeleton = mCharacterBaseSkeletons[mCurrentCharacterIndex];
 
@@ -252,7 +253,7 @@ void ModelViewerState::render()
    // Render the graphs
    if (mDisplayGraphs)
    {
-      mTrackVisualizer.render();
+      mTrackVisualizer.render(mFillEmptyTilesWithRepeatedGraphs);
    }
 
    glClear(GL_DEPTH_BUFFER_BIT);
@@ -580,6 +581,8 @@ void ModelViewerState::userInterface()
 
       ImGui::Checkbox("Perform Depth Testing", &mPerformDepthTesting);
 #endif
+
+      ImGui::Checkbox("Fill Empty Tiles With Repeated Graphs", &mFillEmptyTilesWithRepeatedGraphs);
    }
 
    ImGui::End();

@@ -87,6 +87,7 @@ private:
    bool                                   mWireframeModeForJoints;
    bool                                   mPerformDepthTesting;
 #endif
+   bool                                   mFillEmptyTilesWithRepeatedGraphs;
 
    bool                                   mPause = false;
 
