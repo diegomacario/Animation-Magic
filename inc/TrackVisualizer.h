@@ -51,6 +51,8 @@ private:
    std::shared_ptr<Shader>             mTrackShader;
 
    std::vector<FastQuaternionTrack>    mTracks;
+   std::vector<glm::vec4>              mMinSamples;
+   std::vector<glm::vec4>              mInverseSampleRanges;
    std::vector<glm::vec3>              mReferenceLines;
    std::vector<glm::vec3>              mEmptyLines;
    std::vector<std::vector<glm::vec3>> mTrackLines;
