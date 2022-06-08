@@ -23,7 +23,7 @@ ModelViewerState::ModelViewerState(const std::shared_ptr<FiniteStateMachine>& fi
                                    const std::shared_ptr<Window>&             window)
    : mFSM(finiteStateMachine)
    , mWindow(window)
-   , mCamera3(7.5f, 25.0f, glm::vec3(0.0f), Q::quat(), glm::vec3(0.0f, 2.5f, 0.0f), 2.0f, 14.0f, 0.0f, 90.0f, 45.0f, 1280.0f / 720.0f, 0.1f, 130.0f, 0.25f)
+   , mCamera3(7.5f, 25.0f, glm::vec3(0.0f), Q::quat(), glm::vec3(0.0f, 2.5f, 0.0f), 2.0f, 20.0f, 0.0f, 90.0f, 45.0f, 1280.0f / 720.0f, 0.1f, 130.0f, 0.25f)
 {
    // Initialize the animated mesh shader
    mAnimatedMeshShader = ResourceManager<Shader>().loadUnmanagedResource<ShaderLoader>("resources/shaders/animated_mesh_with_pregenerated_skin_matrices.vert",
@@ -37,11 +37,6 @@ ModelViewerState::ModelViewerState(const std::shared_ptr<FiniteStateMachine>& fi
 
    loadCharacters();
    loadGround();
-
-   initializeState();
-
-   // Initialize the bones of the skeleton viewer
-   mSkeletonViewer.InitializeBones(mPose);
 }
 
 void ModelViewerState::initializeState()
@@ -49,11 +44,11 @@ void ModelViewerState::initializeState()
    mPause = false;
 
    // Set the initial character
-   mSelectedCharacter = 0;     // Woman
-   mCurrentCharacterIndex = 0; // Woman
+   mSelectedCharacter = 3;     // George
+   mCurrentCharacterIndex = 3; // George
 
    // Set the initial clip
-   mSelectedClip = 7;         // Woman  - Walk
+   mSelectedClip = 1;         // George - Hello
    mCurrentClipIndex = { 7,   // Woman  - Walk
                          2,   // Man    - Run
                          0,   // Stag   - Idle
@@ -103,6 +98,9 @@ void ModelViewerState::initializeState()
                           0.1f,   // Stan
                           0.1f,   // Zombie
                           0.3f }; // Pistol
+
+   // Initialize the bones of the skeleton viewer
+   mSkeletonViewer.InitializeBones(mPose);
 
    // Reset the track visualizer
    mTrackVisualizer.setTracks(mCharacterClips[mCurrentCharacterIndex][mCurrentClipIndex[mCurrentCharacterIndex]].GetTransformTracks());
@@ -594,6 +592,6 @@ void ModelViewerState::resetScene()
 
 void ModelViewerState::resetCamera()
 {
-   mCamera3.reposition(7.5f, 25.0f, glm::vec3(0.0f), Q::quat(), glm::vec3(0.0f, 2.5f, 0.0f), 2.0f, 14.0f, 0.0f, 90.0f);
+   mCamera3.reposition(7.5f, 25.0f, glm::vec3(0.0f), Q::quat(), glm::vec3(0.0f, 2.5f, 0.0f), 2.0f, 20.0f, 0.0f, 90.0f);
    mCamera3.processMouseMovement(180.0f / 0.25f, 0.0f);
 }
