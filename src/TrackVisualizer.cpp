@@ -17,6 +17,7 @@ TrackVisualizer::TrackVisualizer()
    , mNumCurves(0)
    , mNumTiles(0)
    , mNumEmptyRows(0)
+   , mNumEmptyTilesInIncompleteRow(0)
    , mTileWidth(0.0f)
    , mTileHeight(0.0f)
    , mTileHorizontalOffset(0.0f)
@@ -127,15 +128,17 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
    }
 
    mNumEmptyRows = 0;
-   int emptyTiles = (mNumTiles * mNumTiles) - mNumGraphs;
-   while (emptyTiles > 0)
+   int numEmptyTiles = (mNumTiles * mNumTiles) - mNumGraphs;
+   while (numEmptyTiles > 0)
    {
-      emptyTiles -= mNumTiles;
-      if (emptyTiles >= 0)
+      numEmptyTiles -= mNumTiles;
+      if (numEmptyTiles >= 0)
       {
          ++mNumEmptyRows;
       }
    }
+
+   mNumEmptyTilesInIncompleteRow = (mNumTiles * mNumTiles) - mNumGraphs - (mNumEmptyRows * mNumTiles);
 
    mTileWidth  = (mWidthOfGraphSpace * (1280.0f / 720.0f)) / mNumTiles;
    mTileHeight = mHeightOfGraphSpace / mNumTiles;
@@ -220,6 +223,7 @@ void TrackVisualizer::update(float deltaTime, float playbackSpeed)
    float xOffset = deltaTime * speedFactor;
    unsigned int trackIndex = 0;
    unsigned int curveIndex = 0;
+   unsigned int indexOfLastRow = (mNumTiles - mNumEmptyRows - 1);
    for (int j = 0; j < mNumTiles; ++j)
    {
       for (int i = 0; i < mNumTiles; ++i)
@@ -230,6 +234,12 @@ void TrackVisualizer::update(float deltaTime, float playbackSpeed)
          }
 
          float xPosOfOriginOfGraph = (mTileWidth * i) + (mTileHorizontalOffset / 2.0f);
+
+         // Shift the graphs of the last row horizontally if there's any empty ones
+         if (j == indexOfLastRow)
+         {
+            xPosOfOriginOfGraph += (mTileWidth * mNumEmptyTilesInIncompleteRow);
+         }
 
          for (int k = 0; k < 4; ++k)
          {
@@ -331,7 +341,8 @@ void TrackVisualizer::render()
 
 void TrackVisualizer::initializeReferenceLines()
 {
-   int trackIndex = 0;
+   unsigned int trackIndex = 0;
+   unsigned int indexOfLastRow = (mNumTiles - mNumEmptyRows - 1);
    for (int j = 0; j < mNumTiles; ++j)
    {
       if (j > (mNumTiles - mNumEmptyRows - 1))
@@ -347,10 +358,16 @@ void TrackVisualizer::initializeReferenceLines()
       {
          float xPosOfOriginOfGraph = (mTileWidth * i) + (mTileHorizontalOffset / 2.0f);
 
+         // Shift the graphs of the last row horizontally if there's any empty ones
+         if (j == indexOfLastRow)
+         {
+            xPosOfOriginOfGraph += (mTileWidth * mNumEmptyTilesInIncompleteRow);
+         }
+
          if (trackIndex >= mNumGraphs)
          {
             // Uncomment this line if you don't want to see reference lines for empty graphs
-            //break;
+            break;
 
             // Bottom to top diagonal
             mEmptyLines.push_back(glm::vec3(xPosOfOriginOfGraph, yPosOfOriginOfGraph, 4.0f));
@@ -389,6 +406,7 @@ void TrackVisualizer::initializeTrackLines()
    mTrackLines.resize(mNumCurves);
    unsigned int trackIndex = 0;
    unsigned int curveIndex = 0;
+   unsigned int indexOfLastRow = (mNumTiles - mNumEmptyRows - 1);
    for (int j = 0; j < mNumTiles; ++j)
    {
       if (j > (mNumTiles - mNumEmptyRows - 1))
@@ -408,6 +426,12 @@ void TrackVisualizer::initializeTrackLines()
          }
 
          float xPosOfOriginOfGraph = (mTileWidth * i) + (mTileHorizontalOffset / 2.0f);
+
+         // Shift the graphs of the last row horizontally if there's any empty ones
+         if (j == indexOfLastRow)
+         {
+            xPosOfOriginOfGraph += (mTileWidth * mNumEmptyTilesInIncompleteRow);
+         }
 
          float trackDuration = mTracks[trackIndex].GetEndTime() - mTracks[trackIndex].GetStartTime();
 

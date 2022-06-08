@@ -33,6 +33,7 @@ private:
    unsigned int                        mNumCurves;
    unsigned int                        mNumTiles;
    unsigned int                        mNumEmptyRows;
+   unsigned int                        mNumEmptyTilesInIncompleteRow;
    float                               mTileWidth;
    float                               mTileHeight;
    float                               mTileHorizontalOffset;
