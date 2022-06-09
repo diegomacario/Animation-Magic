@@ -71,8 +71,6 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
       mTrackLinesVBOs.clear();
    }
 
-   unsigned int numDiscardedTracks = 0;
-
    // Determine which tracks are valid and store their min samples and inverse sample ranges
    for (int trackIndex = 0; trackIndex < tracks.size(); ++trackIndex)
    {
@@ -107,7 +105,6 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
       if (std::isinf(inverseSampleRange.x) && std::isinf(inverseSampleRange.y) && std::isinf(inverseSampleRange.z) && std::isinf(inverseSampleRange.w))
       {
          //std::cout << "Graph " << trackIndex << " is invisible!" << '\n';
-         numDiscardedTracks++;
       }
       else
       {
@@ -238,6 +235,12 @@ void TrackVisualizer::update(float deltaTime, float playbackSpeed)
    unsigned int curveIndex = 0;
    for (int j = 0; j < mNumTiles; ++j)
    {
+      if (j > (mNumTiles - mNumEmptyRows - 1))
+      {
+         // Skip empty rows
+         break;
+      }
+
       for (int i = 0; i < mNumTiles; ++i)
       {
          float xPosOfOriginOfGraph = (mTileWidth * i) + (mTileHorizontalOffset / 2.0f);

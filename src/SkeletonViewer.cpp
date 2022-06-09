@@ -16,7 +16,7 @@ SkeletonViewer::SkeletonViewer()
    , mJointsEBO(0)
    , mBoneShader()
    , mJointShader()
-   , mBoneColorPalette{glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.65f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f)}
+   , mBoneColorPalette{glm::vec3(244.0f, 255.0f, 97.0f) / 255.0f, glm::vec3(168.0f, 255.0f, 62.0f) / 255.0f, glm::vec3(50.0f, 255.0f, 106.0f) / 255.0f}
    , mBonePositions()
    , mBoneColors()
    , mInitialized(false)

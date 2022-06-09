@@ -44,11 +44,11 @@ void ModelViewerState::initializeState()
    mPause = false;
 
    // Set the initial character
-   mSelectedCharacter = 3;     // George
-   mCurrentCharacterIndex = 3; // George
+   mSelectedCharacter = 4;     // Leela
+   mCurrentCharacterIndex = 4; // Leela
 
    // Set the initial clip
-   mSelectedClip = 1;         // George - Hello
+   mSelectedClip = 0;         // Leela  - Dance
    mCurrentClipIndex = { 7,   // Woman  - Walk
                          2,   // Man    - Run
                          0,   // Stag   - Idle
@@ -154,8 +154,7 @@ void ModelViewerState::processInput()
    if (mWindow->keyIsPressed(GLFW_KEY_R)) { resetCamera(); }
 
    // Orient the camera
-   if (mWindow->mouseMoved() &&
-       (mWindow->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT) || mWindow->keyIsPressed(GLFW_KEY_C)))
+   if (mWindow->mouseMoved() && mWindow->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
    {
       mCamera3.processMouseMovement(mWindow->getCursorXOffset(), mWindow->getCursorYOffset());
       mWindow->resetMouseMoved();
@@ -527,22 +526,10 @@ void ModelViewerState::userInterface()
 
    ImGui::Text("Application Average: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-   if (ImGui::CollapsingHeader("Description", nullptr))
-   {
-      ImGui::Text("This state illustrates the playback of various\n"
-                  "animation clips that have been loaded from\n"
-                  "a glTF file.\n\n"
-                  "You can switch between the different clips\n"
-                  "and change the playback speed to see them\n"
-                  "in slow or fast motion.");
-   }
-
    if (ImGui::CollapsingHeader("Controls", nullptr))
    {
       ImGui::BulletText("Hold the left mouse button and move the mouse\n"
-                        "to rotate the camera around the character.\n"
-                        "Alternatively, hold the C key and move \n"
-                        "the mouse (this is easier on a touchpad).");
+                        "to rotate the camera around the character.");
       ImGui::BulletText("Use the scroll wheel to zoom in and out.");
       ImGui::BulletText("Press the P key to pause the animation.");
       ImGui::BulletText("Press the R key to reset the camera.");
