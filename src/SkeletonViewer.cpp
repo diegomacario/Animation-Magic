@@ -260,7 +260,7 @@ void SkeletonViewer::RenderBones(const Transform& model, const glm::mat4& projec
    mBoneShader->use(false);
 }
 
-void SkeletonViewer::RenderJoints(const Transform& model, const glm::mat4& projectionView, const std::vector<glm::mat4>& animatedPosePalette, float scaleFactor)
+void SkeletonViewer::RenderJoints(const Transform& model, const glm::mat4& projectionView, const std::vector<glm::mat4>& animatedPosePalette, float scaleFactor, int indexOfGlowingJoint)
 {
    // We need to combine 3 transforms:
    // - The model transform of the entire 3D character
@@ -292,6 +292,7 @@ void SkeletonViewer::RenderJoints(const Transform& model, const glm::mat4& proje
    mJointShader->use(true);
    mJointShader->setUniformMat4("projectionView", projectionView);
    mJointShader->setUniformMat4Array("modelMatrices[0]", combinedTransforms);
+   mJointShader->setUniformInt("indexOfGlowingJoint", indexOfGlowingJoint);
    glBindVertexArray(mJointsVAO);
    glDrawElementsInstanced(GL_TRIANGLES, 24, GL_UNSIGNED_INT, 0, static_cast<unsigned int>(animatedPosePalette.size()));
    glBindVertexArray(0);

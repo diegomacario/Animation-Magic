@@ -24,7 +24,7 @@ public:
    void UpdateBones(const Pose& animatedPose, const std::vector<glm::mat4>& animatedPosePalette);
 
    void RenderBones(const Transform& model, const glm::mat4& projectionView);
-   void RenderJoints(const Transform& model, const glm::mat4& projectionView, const std::vector<glm::mat4>& animatedPosePalette, float scaleFactor);
+   void RenderJoints(const Transform& model, const glm::mat4& projectionView, const std::vector<glm::mat4>& animatedPosePalette, float scaleFactor, int indexOfGlowingJoint);
 
 private:
 

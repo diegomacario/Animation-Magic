@@ -1,5 +1,6 @@
 in vec3 fragPos;
 in vec3 norm;
+in vec3 col;
 
 struct PointLight
 {
@@ -34,8 +35,8 @@ void main()
       vec3  diff        = max(dot(lightDir, norm), 0.0) * pointLights[i].color * attenuation;
       vec3  diffuse     = (diff * vec3(0.0f, 1.0f, 0.0f));
    
-      color += diffuse + vec3(0.0f, 0.25f, 0.0f);
+      color += diffuse + col;
    }
 
-   fragColor = vec4(color, 1.0);
+   fragColor = vec4(color + col, 1.0);
 }

@@ -59,18 +59,20 @@ void ModelViewerState::initializeState()
                          5,   // Zombie - Walk
                          0 }; // Pistol - Fire
 
+   // Set the initial playback time
+   mPlaybackTime = 0.0f;
    // Set the initial playback speed
    mSelectedPlaybackSpeed = 1.0f;
    // Set the initial rendering options
    mDisplayGround = false;
    mDisplayGraphs = true;
    mDisplayMesh = true;
-   mDisplayBones = false;
-   mDisplayJoints = false;
+   mDisplayBones = true;
+   mDisplayJoints = true;
 #ifndef __EMSCRIPTEN__
    mWireframeModeForCharacter = false;
    mWireframeModeForJoints = false;
-   mPerformDepthTesting = true;
+   mPerformDepthTesting = false;
 #endif
    mFillEmptyTilesWithRepeatedGraphs = true;
 
@@ -102,6 +104,28 @@ void ModelViewerState::initializeState()
 
    // Initialize the bones of the skeleton viewer
    mSkeletonViewer.InitializeBones(mPose);
+
+   // Sample the clip to get the animated pose
+   FastClip& currClip = mCharacterClips[mCurrentCharacterIndex][mCurrentClipIndex[mCurrentCharacterIndex]];
+   mPlaybackTime = currClip.Sample(mPose, mPlaybackTime);
+
+   // Get the palette of the animated pose
+   mPose.GetMatrixPalette(mPosePalette);
+
+   std::vector<glm::mat4>& inverseBindPose = mCharacterSkeleton.GetInvBindPose();
+
+   // Generate the skin matrices
+   mSkinMatrices.resize(mPosePalette.size());
+   for (unsigned int i = 0,
+        size = static_cast<unsigned int>(mPosePalette.size());
+        i < size;
+        ++i)
+   {
+      mSkinMatrices[i] = mPosePalette[i] * inverseBindPose[i];
+   }
+
+   // Update the skeleton viewer
+   mSkeletonViewer.UpdateBones(mPose, mPosePalette);
 
    // Reset the track visualizer
    mTrackVisualizer.setTracks(mCharacterClips[mCurrentCharacterIndex][mCurrentClipIndex[mCurrentCharacterIndex]].GetTransformTracks());
@@ -352,7 +376,14 @@ void ModelViewerState::render()
    // Render the joints
    if (mDisplayJoints)
    {
-      mSkeletonViewer.RenderJoints(mModelTransform[mCurrentCharacterIndex], mCamera3.getPerspectiveProjectionViewMatrix(), mPosePalette, mJointScaleFactors[mCurrentCharacterIndex]);
+      int indexOfGlowingJoint = -1;
+      int indexOfGraphBeingHovered = mTrackVisualizer.getIndexOfGraphBeingHovered();
+      if (indexOfGraphBeingHovered != -1)
+      {
+         indexOfGlowingJoint = mCharacterClips[mCurrentCharacterIndex][mCurrentClipIndex[mCurrentCharacterIndex]].GetJointIDOfTransformTrack(indexOfGraphBeingHovered);
+      }
+
+      mSkeletonViewer.RenderJoints(mModelTransform[mCurrentCharacterIndex], mCamera3.getPerspectiveProjectionViewMatrix(), mPosePalette, mJointScaleFactors[mCurrentCharacterIndex], indexOfGlowingJoint);
    }
 
 #ifndef __EMSCRIPTEN__

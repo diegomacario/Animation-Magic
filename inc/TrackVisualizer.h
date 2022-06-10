@@ -20,6 +20,8 @@ public:
 
    void render(bool fillEmptyTilesWithRepeatedGraphs);
 
+   int  getIndexOfGraphBeingHovered() const;
+
 private:
 
    void initializeReferenceLines();

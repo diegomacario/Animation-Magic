@@ -67,7 +67,7 @@ private:
 
    unsigned int                           mCurrentCharacterIndex;
    std::vector<unsigned int>              mCurrentClipIndex;
-   float                                  mPlaybackTime = 0.0f;
+   float                                  mPlaybackTime;
    Pose                                   mPose;
    std::vector<glm::mat4>                 mPosePalette;
    std::vector<glm::mat4>                 mSkinMatrices;

@@ -387,6 +387,16 @@ void TrackVisualizer::render(bool fillEmptyTilesWithRepeatedGraphs)
    mTrackShader->use(false);
 }
 
+int TrackVisualizer::getIndexOfGraphBeingHovered() const
+{
+   if (mIndexOfGraphBeingHovered == -1)
+   {
+      return mIndexOfGraphBeingHovered;
+   }
+
+   return (mIndexOfGraphBeingHovered % (mNumGraphs - mNumEmptyTilesInIncompleteRow));
+}
+
 void TrackVisualizer::initializeReferenceLines()
 {
    mEmptyLines.resize(4);
