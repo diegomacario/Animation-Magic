@@ -18,7 +18,7 @@ EM_JS(int, getCanvasHeight, (), {
    return window.innerHeight;
 });
 
-EM_JS(float, getDevicePixelRatio, (), {
+EM_JS(float, getDevicePixelRatioEmscripten, (), {
    return window.devicePixelRatio;
 });
 
@@ -39,6 +39,7 @@ Window::Window(const std::string& title)
    , mHeightOfWindowInPix(0)
    , mWidthOfFramebufferInPix(0)
    , mHeightOfFramebufferInPix(0)
+   , mDevicePixelRatio(1.0f)
    , mTitle(title)
 #ifndef __EMSCRIPTEN__
    , mIsFullScreen(false)
@@ -105,14 +106,13 @@ bool Window::initialize()
    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-   float devicePixelRatio = 1.0f;
    int width = 1280;
    int height = 720;
 
 #ifdef __EMSCRIPTEN__
-   devicePixelRatio = getDevicePixelRatio();
-   width = getCanvasWidth() * devicePixelRatio;
-   height = getCanvasHeight() * devicePixelRatio;
+   mDevicePixelRatio = getDevicePixelRatioEmscripten();
+   width = getCanvasWidth() * mDevicePixelRatio;
+   height = getCanvasHeight() * mDevicePixelRatio;
    mScrollWheelSensitivity = getBrowserScrollWheelSensitivity();
 #endif
 
@@ -165,7 +165,7 @@ bool Window::initialize()
    // TODO: The ImGui window is properly scaled in the browser, but in the desktop it looks huge
    //       We need to figure out how to scale things properly in the desktop
    //       Once that's done, the calls to AddFontFromFileTTF and ScaleAllSizes should be done in the desktop too
-   //devicePixelRatio = static_cast<float>(mWidthOfFramebufferInPix) / static_cast<float>(mWidthOfWindowInPix);
+   mDevicePixelRatio = static_cast<float>(mWidthOfFramebufferInPix) / static_cast<float>(mWidthOfWindowInPix);
 #endif
 
    // Initialize ImGui
@@ -175,13 +175,14 @@ bool Window::initialize()
    ImGuiIO& io = ImGui::GetIO(); (void)io;
    io.IniFilename = nullptr;
 #ifdef __EMSCRIPTEN__
-   io.Fonts->AddFontFromFileTTF("resources/fonts/Cousine-Regular.ttf", 12 * devicePixelRatio);
+   io.Fonts->AddFontFromFileTTF("resources/fonts/Cousine-Regular.ttf", 12 * mDevicePixelRatio);
 #endif
 
    // Setup Dear ImGui style
    ImGui::StyleColorsDark();
+
 #ifdef __EMSCRIPTEN__
-   ImGui::GetStyle().ScaleAllSizes(devicePixelRatio);
+   ImGui::GetStyle().ScaleAllSizes(mDevicePixelRatio);
 #endif
 
    // Setup Platform/Renderer bindings
@@ -546,9 +547,8 @@ void Window::setNumberOfSamples(unsigned int numOfSamples)
 #ifdef __EMSCRIPTEN__
 void Window::updateWindowDimensions(int width, int height)
 {
-   float devicePixelRatio = getDevicePixelRatio();
-   mWidthOfWindowInPix    = width * devicePixelRatio;
-   mHeightOfWindowInPix   = height * devicePixelRatio;
+   mWidthOfWindowInPix  = width * mDevicePixelRatio;
+   mHeightOfWindowInPix = height * mDevicePixelRatio;
    glfwSetWindowSize(mWindow, mWidthOfWindowInPix, mHeightOfWindowInPix);
 }
 #endif
@@ -606,6 +606,8 @@ void Window::updateBufferAndViewportSizes(int widthOfFramebufferInPix, int heigh
    }
 
    glViewport(lowerLeftCornerOfViewportXInPix, lowerLeftCornerOfViewportYInPix, widthOfViewportInPix, heightOfViewportInPix);
+
+   glScissor(lowerLeftCornerOfViewportXInPix, lowerLeftCornerOfViewportYInPix, widthOfViewportInPix, heightOfViewportInPix);
 
    mLowerLeftCornerOfViewportXInPix = lowerLeftCornerOfViewportXInPix;
    mLowerLeftCornerOfViewportYInPix = lowerLeftCornerOfViewportYInPix;

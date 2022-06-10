@@ -36,6 +36,7 @@ public:
    unsigned int getHeightOfWindowInPix() const;
    unsigned int getWidthOfFramebufferInPix() const;
    unsigned int getHeightOfFramebufferInPix() const;
+   float        getDevicePixelRatio() const { return mDevicePixelRatio; }
 #ifndef __EMSCRIPTEN__
    bool         isFullScreen() const;
    void         setFullScreen(bool fullScreen);
@@ -52,6 +53,8 @@ public:
    void         resetFirstMove();
    float        getCursorXOffset() const;
    float        getCursorYOffset() const;
+   double       getCursorXPos() const { return mLastCursorXPos; }
+   double       getCursorYPos() const { return mLastCursorYPos; }
    void         enableCursor(bool enable);
    bool         isMouseButtonPressed(int button);
 
@@ -74,10 +77,10 @@ public:
    void         updateWindowDimensions(int width, int height);
 #endif
 
-   int          getLowerLeftCornerOfViewportXInPix() { return mLowerLeftCornerOfViewportXInPix; };
-   int          getLowerLeftCornerOfViewportYInPix() { return mLowerLeftCornerOfViewportYInPix; };
-   int          getWidthOfViewportInPix() { return mWidthOfViewportInPix; };
-   int          getHeightOfViewportInPix() { return mHeightOfViewportInPix; };
+   int          getLowerLeftCornerOfViewportXInPix() const { return mLowerLeftCornerOfViewportXInPix; };
+   int          getLowerLeftCornerOfViewportYInPix() const { return mLowerLeftCornerOfViewportYInPix; };
+   int          getWidthOfViewportInPix() const { return mWidthOfViewportInPix; };
+   int          getHeightOfViewportInPix() const { return mHeightOfViewportInPix; };
    void         setViewport();
 
 private:
@@ -97,6 +100,7 @@ private:
    int                            mHeightOfWindowInPix;
    int                            mWidthOfFramebufferInPix;
    int                            mHeightOfFramebufferInPix;
+   float                          mDevicePixelRatio;
    std::string                    mTitle;
 #ifndef __EMSCRIPTEN__
    bool                           mIsFullScreen;

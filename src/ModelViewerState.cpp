@@ -230,7 +230,7 @@ void ModelViewerState::update(float deltaTime)
    mSkeletonViewer.UpdateBones(mPose, mPosePalette);
 
    // Update the track visualizer
-   mTrackVisualizer.update(deltaTime, mSelectedPlaybackSpeed);
+   mTrackVisualizer.update(deltaTime, mSelectedPlaybackSpeed, mWindow);
 }
 
 void ModelViewerState::render()
@@ -244,7 +244,21 @@ void ModelViewerState::render()
 #ifndef __EMSCRIPTEN__
    mWindow->bindMultisampleFramebuffer();
 #endif
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   // Set the clear color to black
+   glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+   // Clear the current framebuffer
+   // At this point the entire framebuffer is black
+   glClear(GL_COLOR_BUFFER_BIT);
+
+   // Set the clear color to red
+   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+   // Clear the area within the scissor box, that is, the viewport
+   glEnable(GL_SCISSOR_TEST);
+   glClear(GL_COLOR_BUFFER_BIT);
+   glDisable(GL_SCISSOR_TEST);
+
+   // Clear the depth buffer
+   glClear(GL_DEPTH_BUFFER_BIT);
 
    // Enable depth testing for 3D objects
    glEnable(GL_DEPTH_TEST);

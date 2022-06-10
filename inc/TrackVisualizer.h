@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "TransformTrack.h"
+#include "window.h"
 #include "shader.h"
 
 class TrackVisualizer
@@ -15,7 +16,7 @@ public:
 
    void setTracks(std::vector<FastTransformTrack>& tracks);
 
-   void update(float deltaTime, float playbackSpeed);
+   void update(float deltaTime, float playbackSpeed, const std::shared_ptr<Window>& window);
 
    void render(bool fillEmptyTilesWithRepeatedGraphs);
 
@@ -52,6 +53,9 @@ private:
 
    std::shared_ptr<Shader>             mTrackShader;
 
+   glm::mat4                           mProjectionViewMatrix;
+   glm::mat4                           mInverseProjectionViewMatrix;
+
    std::vector<FastQuaternionTrack>    mTracks;
    std::vector<glm::vec4>              mMinSamples;
    std::vector<glm::vec4>              mInverseSampleRanges;
@@ -62,6 +66,10 @@ private:
    glm::vec3                           mTrackLinesColorPalette[4];
 
    bool                                mInitialized;
+
+   std::vector<glm::vec2>              mGraphLowerLeftCorners;
+   std::vector<glm::vec2>              mGraphUpperRightCorners;
+   int                                 mIndexOfGraphBeingHovered;
 };
 
 #endif

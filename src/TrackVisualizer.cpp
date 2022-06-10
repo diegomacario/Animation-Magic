@@ -38,9 +38,28 @@ TrackVisualizer::TrackVisualizer()
    , mTrackLines()
    , mTrackLinesColorPalette{glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.65f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)}
    , mInitialized(false)
+   , mGraphLowerLeftCorners()
+   , mGraphUpperRightCorners()
+   , mIndexOfGraphBeingHovered(-1)
 {
    mTrackShader = ResourceManager<Shader>().loadUnmanagedResource<ShaderLoader>("resources/shaders/graph.vert",
                                                                                 "resources/shaders/graph.frag");
+
+   glm::vec3 eye    = glm::vec3(0.0f, 0.0f, 5.0f);
+   glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
+   glm::vec3 up     = glm::vec3(0.0f, 1.0f, 0.0f);
+   glm::mat4 view   = glm::lookAt(eye, center, up);
+
+   float left   = 0.0f;
+   float right  = mWidthOfGraphSpace * (1280.0f / 720.0f);
+   float bottom = 0.0f;
+   float top    = mWidthOfGraphSpace;
+   float near   = 0.001f;
+   float far    = 10.0f;
+   glm::mat4 projection = glm::ortho(left, right, bottom, top, near, far);
+
+   mProjectionViewMatrix = projection * view;
+   mInverseProjectionViewMatrix = glm::inverse(mProjectionViewMatrix);
 }
 
 TrackVisualizer::~TrackVisualizer()
@@ -69,6 +88,9 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
       }
       mTrackLinesVAOs.clear();
       mTrackLinesVBOs.clear();
+      mGraphLowerLeftCorners.clear();
+      mGraphUpperRightCorners.clear();
+      mIndexOfGraphBeingHovered = -1;
    }
 
    // Determine which tracks are valid and store their min samples and inverse sample ranges
@@ -227,7 +249,7 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
    mInitialized = true;
 }
 
-void TrackVisualizer::update(float deltaTime, float playbackSpeed)
+void TrackVisualizer::update(float deltaTime, float playbackSpeed, const std::shared_ptr<Window>& window)
 {
    float speedFactor = (playbackSpeed == 0.0f) ? 0.0f : 1.0f + (4.0f * playbackSpeed);
    float xOffset = deltaTime * speedFactor;
@@ -302,25 +324,40 @@ void TrackVisualizer::update(float deltaTime, float playbackSpeed)
          curveIndex += 4;
       }
    }
+
+   float  devicePixelRatio = window->getDevicePixelRatio();
+   double cursorXPos       = window->getCursorXPos();
+   double cursorYPos       = window->getCursorYPos();
+#ifndef __EMSCRIPTEN__
+   cursorXPos *= devicePixelRatio;
+   cursorYPos *= devicePixelRatio;
+#endif
+
+   double x = ((2.0 * (cursorXPos - window->getLowerLeftCornerOfViewportXInPix())) / window->getWidthOfViewportInPix()) - 1.0f;
+   double y = ((2.0 * (cursorYPos - window->getLowerLeftCornerOfViewportYInPix())) / window->getHeightOfViewportInPix()) - 1.0f;
+
+   glm::vec4 screenPos(x, -y, -1.0f, 1.0f);
+   glm::vec4 worldPos = mInverseProjectionViewMatrix * screenPos;
+
+   mIndexOfGraphBeingHovered = -1;
+   for (int i = 0; i < mGraphLowerLeftCorners.size(); ++i)
+   {
+      if (worldPos.x >= mGraphLowerLeftCorners[i].x &&
+          worldPos.x <= mGraphUpperRightCorners[i].x &&
+          worldPos.y >= mGraphLowerLeftCorners[i].y &&
+          worldPos.y <= mGraphUpperRightCorners[i].y)
+      {
+         mIndexOfGraphBeingHovered = i;
+         break;
+      }
+   }
 }
 
 void TrackVisualizer::render(bool fillEmptyTilesWithRepeatedGraphs)
 {
    mTrackShader->use(true);
 
-   glm::vec3 eye    = glm::vec3(0.0f, 0.0f, 5.0f);
-   glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
-   glm::vec3 up     = glm::vec3(0.0f, 1.0f, 0.0f);
-   glm::mat4 view   = glm::lookAt(eye, center, up);
-
-   float left   = 0.0f;
-   float right  = mWidthOfGraphSpace * (1280.0f / 720.0f);
-   float bottom = 0.0f;
-   float top    = mWidthOfGraphSpace;
-   float near   = 0.001f;
-   float far    = 10.0f;
-   glm::mat4 projection = glm::ortho(left, right, bottom, top, near, far);
-   mTrackShader->setUniformMat4("projectionView", projection * view);
+   mTrackShader->setUniformMat4("projectionView", mProjectionViewMatrix);
 
    mTrackShader->setUniformVec3("color", glm::vec3(1.0f, 1.0f, 1.0f));
    glBindVertexArray(mReferenceLinesVAO);
@@ -395,6 +432,10 @@ void TrackVisualizer::initializeReferenceLines()
          // X axis (top)
          //mReferenceLines.push_back(glm::vec3(xPosOfOriginOfGraph, yPosOfOriginOfGraph + mGraphHeight, 4.0f));
          //mReferenceLines.push_back(glm::vec3(xPosOfOriginOfGraph + mGraphWidth, yPosOfOriginOfGraph + mGraphHeight, 4.0f));
+
+         // The corners are used to determine which graph the mouse is hovering over
+         mGraphLowerLeftCorners.push_back(glm::vec2(xPosOfOriginOfGraph, yPosOfOriginOfGraph));
+         mGraphUpperRightCorners.push_back(glm::vec2(xPosOfOriginOfGraph + mGraphWidth, yPosOfOriginOfGraph + mGraphHeight));
 
          ++trackIndex;
       }
