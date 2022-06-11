@@ -43,6 +43,7 @@ TrackVisualizer::TrackVisualizer()
    , mGraphLowerLeftCorners()
    , mGraphUpperRightCorners()
    , mIndexOfSelectedGraph(-1)
+   , mRightMouseButtonWasPressed(false)
 {
    mTrackShader = ResourceManager<Shader>().loadUnmanagedResource<ShaderLoader>("resources/shaders/graph.vert",
                                                                                 "resources/shaders/graph.frag");
@@ -327,7 +328,8 @@ void TrackVisualizer::update(float deltaTime, float playbackSpeed, const std::sh
       }
    }
 
-   if (window->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))
+   bool rightMouseButtonIsPressed = window->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT);
+   if (!mRightMouseButtonWasPressed && rightMouseButtonIsPressed)
    {
       float  devicePixelRatio = window->getDevicePixelRatio();
       double cursorXPos       = window->getCursorXPos();
@@ -343,6 +345,7 @@ void TrackVisualizer::update(float deltaTime, float playbackSpeed, const std::sh
       glm::vec4 screenPos(x, -y, -1.0f, 1.0f);
       glm::vec4 worldPos = mInverseProjectionViewMatrix * screenPos;
 
+      int newIndexOfSelectedGraph = -1;
       for (int i = 0; i < mGraphLowerLeftCorners.size(); ++i)
       {
          if (worldPos.x >= mGraphLowerLeftCorners[i].x &&
@@ -350,10 +353,26 @@ void TrackVisualizer::update(float deltaTime, float playbackSpeed, const std::sh
              worldPos.y >= mGraphLowerLeftCorners[i].y &&
              worldPos.y <= mGraphUpperRightCorners[i].y)
          {
-            mIndexOfSelectedGraph = i;
+            newIndexOfSelectedGraph = i;
             break;
          }
       }
+
+      if (newIndexOfSelectedGraph == mIndexOfSelectedGraph)
+      {
+         // Clear the selection when an already selected graph is clicked
+         mIndexOfSelectedGraph = -1;
+      }
+      else
+      {
+         mIndexOfSelectedGraph = newIndexOfSelectedGraph;
+      }
+
+      mRightMouseButtonWasPressed = true;
+   }
+   else if (!rightMouseButtonIsPressed)
+   {
+      mRightMouseButtonWasPressed = false;
    }
 
    // If a repeated graph is selected and the "fill empty tiles with repeated graphs" option is unchecked,

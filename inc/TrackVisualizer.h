@@ -73,6 +73,8 @@ private:
    std::vector<glm::vec2>              mGraphLowerLeftCorners;
    std::vector<glm::vec2>              mGraphUpperRightCorners;
    int                                 mIndexOfSelectedGraph;
+
+   bool                                mRightMouseButtonWasPressed;
 };
 
 #endif
