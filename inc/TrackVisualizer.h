@@ -16,11 +16,11 @@ public:
 
    void setTracks(std::vector<FastTransformTrack>& tracks);
 
-   void update(float deltaTime, float playbackSpeed, const std::shared_ptr<Window>& window);
+   void update(float deltaTime, float playbackSpeed, const std::shared_ptr<Window>& window, bool fillEmptyTilesWithRepeatedGraphs);
 
    void render(bool fillEmptyTilesWithRepeatedGraphs);
 
-   int  getIndexOfGraphBeingHovered() const;
+   int  getIndexOfSelectedGraph() const;
 
 private:
 
@@ -66,12 +66,13 @@ private:
    std::vector<std::vector<glm::vec3>> mTrackLines;
 
    glm::vec3                           mTrackLinesColorPalette[4];
+   glm::vec3                           mSelectedTrackLinesColorPalette[4];
 
    bool                                mInitialized;
 
    std::vector<glm::vec2>              mGraphLowerLeftCorners;
    std::vector<glm::vec2>              mGraphUpperRightCorners;
-   int                                 mIndexOfGraphBeingHovered;
+   int                                 mIndexOfSelectedGraph;
 };
 
 #endif

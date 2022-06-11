@@ -254,7 +254,7 @@ void ModelViewerState::update(float deltaTime)
    mSkeletonViewer.UpdateBones(mPose, mPosePalette);
 
    // Update the track visualizer
-   mTrackVisualizer.update(deltaTime, mSelectedPlaybackSpeed, mWindow);
+   mTrackVisualizer.update(deltaTime, mSelectedPlaybackSpeed, mWindow, mFillEmptyTilesWithRepeatedGraphs);
 }
 
 void ModelViewerState::render()
@@ -377,10 +377,10 @@ void ModelViewerState::render()
    if (mDisplayJoints)
    {
       int indexOfGlowingJoint = -1;
-      int indexOfGraphBeingHovered = mTrackVisualizer.getIndexOfGraphBeingHovered();
-      if (indexOfGraphBeingHovered != -1)
+      int indexOfSelectedGraph = mTrackVisualizer.getIndexOfSelectedGraph();
+      if (indexOfSelectedGraph != -1)
       {
-         indexOfGlowingJoint = mCharacterClips[mCurrentCharacterIndex][mCurrentClipIndex[mCurrentCharacterIndex]].GetJointIDOfTransformTrack(indexOfGraphBeingHovered);
+         indexOfGlowingJoint = mCharacterClips[mCurrentCharacterIndex][mCurrentClipIndex[mCurrentCharacterIndex]].GetJointIDOfTransformTrack(indexOfSelectedGraph);
       }
 
       mSkeletonViewer.RenderJoints(mModelTransform[mCurrentCharacterIndex], mCamera3.getPerspectiveProjectionViewMatrix(), mPosePalette, mJointScaleFactors[mCurrentCharacterIndex], indexOfGlowingJoint);

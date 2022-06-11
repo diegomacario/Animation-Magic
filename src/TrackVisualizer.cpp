@@ -37,10 +37,12 @@ TrackVisualizer::TrackVisualizer()
    , mEmptyLines()
    , mTrackLines()
    , mTrackLinesColorPalette{glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.65f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)}
+   //, mSelectedTrackLinesColorPalette{glm::vec3(244.0f, 255.0f, 97.0f) / 255.0f, glm::vec3(168.0f, 255.0f, 62.0f) / 255.0f, glm::vec3(50.0f, 255.0f, 106.0f) / 255.0f, glm::vec3(50.0f, 255.0f, 106.0f) / 255.0f}
+   , mSelectedTrackLinesColorPalette{glm::vec3(111, 231, 221) / 255.0f, glm::vec3(52, 144, 222) / 255.0f, glm::vec3(102, 57, 166) / 255.0f, glm::vec3(82, 18, 98) / 255.0f}
    , mInitialized(false)
    , mGraphLowerLeftCorners()
    , mGraphUpperRightCorners()
-   , mIndexOfGraphBeingHovered(-1)
+   , mIndexOfSelectedGraph(-1)
 {
    mTrackShader = ResourceManager<Shader>().loadUnmanagedResource<ShaderLoader>("resources/shaders/graph.vert",
                                                                                 "resources/shaders/graph.frag");
@@ -90,7 +92,7 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
       mTrackLinesVBOs.clear();
       mGraphLowerLeftCorners.clear();
       mGraphUpperRightCorners.clear();
-      mIndexOfGraphBeingHovered = -1;
+      mIndexOfSelectedGraph = -1;
    }
 
    // Determine which tracks are valid and store their min samples and inverse sample ranges
@@ -249,7 +251,7 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
    mInitialized = true;
 }
 
-void TrackVisualizer::update(float deltaTime, float playbackSpeed, const std::shared_ptr<Window>& window)
+void TrackVisualizer::update(float deltaTime, float playbackSpeed, const std::shared_ptr<Window>& window, bool fillEmptyTilesWithRepeatedGraphs)
 {
    float speedFactor = (playbackSpeed == 0.0f) ? 0.0f : 1.0f + (4.0f * playbackSpeed);
    float xOffset = deltaTime * speedFactor;
@@ -325,31 +327,41 @@ void TrackVisualizer::update(float deltaTime, float playbackSpeed, const std::sh
       }
    }
 
-   float  devicePixelRatio = window->getDevicePixelRatio();
-   double cursorXPos       = window->getCursorXPos();
-   double cursorYPos       = window->getCursorYPos();
-#ifndef __EMSCRIPTEN__
-   cursorXPos *= devicePixelRatio;
-   cursorYPos *= devicePixelRatio;
-#endif
-
-   double x = ((2.0 * (cursorXPos - window->getLowerLeftCornerOfViewportXInPix())) / window->getWidthOfViewportInPix()) - 1.0f;
-   double y = ((2.0 * (cursorYPos - window->getLowerLeftCornerOfViewportYInPix())) / window->getHeightOfViewportInPix()) - 1.0f;
-
-   glm::vec4 screenPos(x, -y, -1.0f, 1.0f);
-   glm::vec4 worldPos = mInverseProjectionViewMatrix * screenPos;
-
-   mIndexOfGraphBeingHovered = -1;
-   for (int i = 0; i < mGraphLowerLeftCorners.size(); ++i)
+   if (window->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))
    {
-      if (worldPos.x >= mGraphLowerLeftCorners[i].x &&
-          worldPos.x <= mGraphUpperRightCorners[i].x &&
-          worldPos.y >= mGraphLowerLeftCorners[i].y &&
-          worldPos.y <= mGraphUpperRightCorners[i].y)
+      float  devicePixelRatio = window->getDevicePixelRatio();
+      double cursorXPos       = window->getCursorXPos();
+      double cursorYPos       = window->getCursorYPos();
+   #ifndef __EMSCRIPTEN__
+      cursorXPos *= devicePixelRatio;
+      cursorYPos *= devicePixelRatio;
+   #endif
+
+      double x = ((2.0 * (cursorXPos - window->getLowerLeftCornerOfViewportXInPix())) / window->getWidthOfViewportInPix()) - 1.0f;
+      double y = ((2.0 * (cursorYPos - window->getLowerLeftCornerOfViewportYInPix())) / window->getHeightOfViewportInPix()) - 1.0f;
+
+      glm::vec4 screenPos(x, -y, -1.0f, 1.0f);
+      glm::vec4 worldPos = mInverseProjectionViewMatrix * screenPos;
+
+      for (int i = 0; i < mGraphLowerLeftCorners.size(); ++i)
       {
-         mIndexOfGraphBeingHovered = i;
-         break;
+         if (worldPos.x >= mGraphLowerLeftCorners[i].x &&
+             worldPos.x <= mGraphUpperRightCorners[i].x &&
+             worldPos.y >= mGraphLowerLeftCorners[i].y &&
+             worldPos.y <= mGraphUpperRightCorners[i].y)
+         {
+            mIndexOfSelectedGraph = i;
+            break;
+         }
       }
+   }
+
+   // If a repeated graph is selected and the "fill empty tiles with repeated graphs" option is unchecked,
+   // clear the selection
+   if ((mIndexOfSelectedGraph >= static_cast<int>(mNumGraphs - mNumEmptyTilesInIncompleteRow)) &&
+       !fillEmptyTilesWithRepeatedGraphs)
+   {
+      mIndexOfSelectedGraph = -1;
    }
 }
 
@@ -376,9 +388,18 @@ void TrackVisualizer::render(bool fillEmptyTilesWithRepeatedGraphs)
    }
 
    int numCurvesToRender = fillEmptyTilesWithRepeatedGraphs ? mNumCurves : mNumCurves - (mNumEmptyTilesInIncompleteRow * 4);
+   int indexOfFirstSelectedCurve = mIndexOfSelectedGraph * 4;
    for (int i = 0; i < numCurvesToRender; ++i)
    {
-      mTrackShader->setUniformVec3("color", mTrackLinesColorPalette[i % 4]);
+      if ((i >= indexOfFirstSelectedCurve) && (i < (indexOfFirstSelectedCurve + 4)))
+      {
+         mTrackShader->setUniformVec3("color", mSelectedTrackLinesColorPalette[i % 4]);
+      }
+      else
+      {
+         mTrackShader->setUniformVec3("color", mTrackLinesColorPalette[i % 4]);
+      }
+
       glBindVertexArray(mTrackLinesVAOs[i]);
       glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(mTrackLines[i].size()));
       glBindVertexArray(0);
@@ -387,14 +408,14 @@ void TrackVisualizer::render(bool fillEmptyTilesWithRepeatedGraphs)
    mTrackShader->use(false);
 }
 
-int TrackVisualizer::getIndexOfGraphBeingHovered() const
+int TrackVisualizer::getIndexOfSelectedGraph() const
 {
-   if (mIndexOfGraphBeingHovered == -1)
+   if (mIndexOfSelectedGraph == -1)
    {
-      return mIndexOfGraphBeingHovered;
+      return mIndexOfSelectedGraph;
    }
 
-   return (mIndexOfGraphBeingHovered % (mNumGraphs - mNumEmptyTilesInIncompleteRow));
+   return (mIndexOfSelectedGraph % (mNumGraphs - mNumEmptyTilesInIncompleteRow));
 }
 
 void TrackVisualizer::initializeReferenceLines()
