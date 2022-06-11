@@ -16,11 +16,11 @@ void main()
 
    if (indexOfGlowingJoint == gl_InstanceID)
    {
-      col = vec3(1.0f, 0.0f, 0.0f);
+      col = vec3(0.0f, 0.25f, 0.25f);
    }
    else
    {
-      col = vec3(0.0f, 1.0f, 0.0f);
+      col = vec3(0.0f, 0.35f, 0.0f);
    }
 
    gl_Position = projectionView * vec4(fragPos, 1.0);

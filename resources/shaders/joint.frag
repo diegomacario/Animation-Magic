@@ -38,5 +38,5 @@ void main()
       color += diffuse + col;
    }
 
-   fragColor = vec4(color + col, 1.0);
+   fragColor = vec4(color, 1.0);
 }

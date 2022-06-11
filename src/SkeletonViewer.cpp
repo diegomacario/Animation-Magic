@@ -284,7 +284,15 @@ void SkeletonViewer::RenderJoints(const Transform& model, const glm::mat4& proje
    {
       // Combine the transforms and store the result
       Transform modelFirstThenPose = combine(model, mat4ToTransform(animatedPosePalette[i]));
-      Transform modelFirstThenPoseThenScale = combine(modelFirstThenPose, jointScale);
+      Transform modelFirstThenPoseThenScale;
+      if (i == indexOfGlowingJoint)
+      {
+         modelFirstThenPoseThenScale = combine(modelFirstThenPose, Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(scaleFactor * 3.5f)));
+      }
+      else
+      {
+         modelFirstThenPoseThenScale = combine(modelFirstThenPose, jointScale);
+      }
       combinedTransforms[i] = transformToMat4(modelFirstThenPoseThenScale);
    }
 
