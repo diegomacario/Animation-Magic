@@ -1,7 +1,8 @@
 in vec3 inPos;
 in vec3 inNormal;
 
-uniform mat4 modelMatrices[120];
+#define MAX_NUMBER_OF_SKIN_MATRICES 49
+uniform mat4 modelMatrices[MAX_NUMBER_OF_SKIN_MATRICES];
 uniform mat4 projectionView;
 uniform int  indexOfGlowingJoint;
 

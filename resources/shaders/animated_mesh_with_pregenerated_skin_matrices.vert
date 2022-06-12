@@ -8,7 +8,8 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
-uniform mat4 animated[120];
+#define MAX_NUMBER_OF_SKIN_MATRICES 49
+uniform mat4 animated[MAX_NUMBER_OF_SKIN_MATRICES];
 
 out vec3 norm;
 out vec3 fragPos;

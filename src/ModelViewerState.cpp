@@ -60,13 +60,13 @@ void ModelViewerState::initializeState()
    // Set the initial rendering options
    mDisplayGround = false;
    mDisplayGraphs = true;
-   mDisplayMesh = true;
-   mDisplayBones = true;
+   mDisplayMesh   = true;
+   mDisplayBones  = true;
    mDisplayJoints = true;
 #ifndef __EMSCRIPTEN__
    mWireframeModeForCharacter = false;
-   mWireframeModeForJoints = false;
-   mPerformDepthTesting = false;
+   mWireframeModeForJoints    = false;
+   mPerformDepthTesting       = false;
 #endif
    mFillEmptyTilesWithRepeatedGraphs = true;
 
