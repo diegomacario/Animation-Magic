@@ -1,8 +1,12 @@
 # Animation-Magic
 
-A tool that reveals the magic behind animations.
+A cool visualization of all the math that powers 3D character animations.
 
 You can run it by clicking [this](https://diegomacario.github.io/Animation-Magic) link.
+
+## Explanation
+
+
 
 ## Technical details
 
