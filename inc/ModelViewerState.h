@@ -89,7 +89,9 @@ private:
 #endif
    bool                                   mFillEmptyTilesWithRepeatedGraphs;
 
+#ifndef __EMSCRIPTEN__
    bool                                   mPause = false;
+#endif
 
    SkeletonViewer                         mSkeletonViewer;
    TrackVisualizer                        mTrackVisualizer;

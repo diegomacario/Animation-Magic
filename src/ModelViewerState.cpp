@@ -1,3 +1,7 @@
+#ifdef __EMSCRIPTEN__
+#include <emscripten/html5.h>
+#endif
+
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
@@ -31,15 +35,17 @@ ModelViewerState::ModelViewerState(const std::shared_ptr<FiniteStateMachine>& fi
 
 void ModelViewerState::initializeState()
 {
+#ifndef __EMSCRIPTEN__
    mPause = false;
+#endif
 
    // Set the initial character
-   mSelectedCharacter = 4;     // Leela
-   mCurrentCharacterIndex = 4; // Leela
+   mSelectedCharacter = 5;     // Zombie
+   mCurrentCharacterIndex = 5; // Zombie
 
    // Set the initial clip
-   mSelectedClip = 0;         // Leela  - Dance
-   mCurrentClipIndex = { 7,   // Woman  - Walk
+   mSelectedClip = 5;         // Zombie - Walk
+   mCurrentClipIndex = { 5,   // Woman  - Punch
                          2,   // Man    - Run
                          0,   // Stag   - Idle
                          1,   // George - Hello
@@ -156,10 +162,10 @@ void ModelViewerState::processInput()
       mWindow->setKeyAsProcessed(GLFW_KEY_8);
       mWindow->setNumberOfSamples(8);
    }
-#endif
 
    // Reset the camera
    if (mWindow->keyIsPressed(GLFW_KEY_R)) { resetCamera(); }
+#endif
 
    // Orient the camera
    if (mWindow->mouseMoved() && mWindow->isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
@@ -175,19 +181,23 @@ void ModelViewerState::processInput()
       mWindow->resetScrollWheelMoved();
    }
 
+#ifndef __EMSCRIPTEN__
    if (mWindow->keyIsPressed(GLFW_KEY_P) && !mWindow->keyHasBeenProcessed(GLFW_KEY_P))
    {
       mWindow->setKeyAsProcessed(GLFW_KEY_P);
       mPause = !mPause;
    }
+#endif
 }
 
 void ModelViewerState::update(float deltaTime)
 {
+#ifndef __EMSCRIPTEN__
    if (mPause)
    {
       return;
    }
+#endif
 
    if (mCurrentCharacterIndex != mSelectedCharacter)
    {
@@ -203,6 +213,9 @@ void ModelViewerState::update(float deltaTime)
 
       // Reset the track visualizer
       mTrackVisualizer.setTracks(mCharacterClips[mCurrentCharacterIndex][mCurrentClipIndex[mCurrentCharacterIndex]].GetTransformTracks());
+
+      // Reset the camera
+      resetCamera();
    }
 
    if (mCurrentClipIndex[mCurrentCharacterIndex] != mSelectedClip)
@@ -238,7 +251,7 @@ void ModelViewerState::update(float deltaTime)
    mSkeletonViewer.UpdateBones(mPose, mPosePalette);
 
    // Update the track visualizer
-   mTrackVisualizer.update(deltaTime, mSelectedPlaybackSpeed, mWindow, mFillEmptyTilesWithRepeatedGraphs);
+   mTrackVisualizer.update(deltaTime, mSelectedPlaybackSpeed, mWindow, mFillEmptyTilesWithRepeatedGraphs, mDisplayGraphs);
 }
 
 void ModelViewerState::render()
@@ -252,21 +265,7 @@ void ModelViewerState::render()
 #ifndef __EMSCRIPTEN__
    mWindow->bindMultisampleFramebuffer();
 #endif
-   // Set the clear color to black
-   glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-   // Clear the current framebuffer
-   // At this point the entire framebuffer is black
-   glClear(GL_COLOR_BUFFER_BIT);
-
-   // Set the clear color to red
-   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-   // Clear the area within the scissor box, that is, the viewport
-   glEnable(GL_SCISSOR_TEST);
-   glClear(GL_COLOR_BUFFER_BIT);
-   glDisable(GL_SCISSOR_TEST);
-
-   // Clear the depth buffer
-   glClear(GL_DEPTH_BUFFER_BIT);
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
    // Enable depth testing for 3D objects
    glEnable(GL_DEPTH_TEST);
@@ -421,7 +420,7 @@ void ModelViewerState::loadCharacters()
                                                       "resources/models/zombie/zombie.glb",
                                                       "resources/models/pistol/pistol.glb" };
 
-   std::vector<std::string> characterNames { "Woman", "Man", "Stag", "George", "Leela", "Zombie", "Pistol" };
+   std::vector<std::string> characterNames { "Woman", "Man", "Stag", "Robot 1", "Robot 2", "Zombie", "Pistol" };
    for (const std::string& characterName : characterNames)
    {
       mCharacterNames += characterName + '\0';
@@ -543,24 +542,44 @@ void ModelViewerState::configureLights(const std::shared_ptr<Shader>& shader)
    shader->use(false);
 }
 
+#ifdef __EMSCRIPTEN__
+EM_JS(void, openReadme, (), {
+   window.open("https://github.com/diegomacario/Animation-Magic/blob/main/README.md");
+});
+#endif
+
 void ModelViewerState::userInterface()
 {
    ImGui::SetNextWindowPos(ImVec2(10.0f, 10.0f), ImGuiCond_Appearing);
 
-   ImGui::Begin("Model Viewer", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize);
+   char title[64];
+   snprintf(title, 32, "Animation Magic (%.1f FPS)###AnimationMagic", ImGui::GetIO().Framerate);
+   ImGui::Begin(title, nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize);
 
-   ImGui::Text("Application Average: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+#ifdef __EMSCRIPTEN__
+   ImGui::Text("Click the button below to learn more about this\n"
+               "project:");
 
-   if (ImGui::CollapsingHeader("Controls", nullptr))
+   if (ImGui::Button("Open README"))
+   {
+      openReadme();
+   }
+#endif
+
+   if (ImGui::CollapsingHeader("Controls", nullptr, ImGuiTreeNodeFlags_DefaultOpen))
    {
       ImGui::BulletText("Hold the left mouse button and move the mouse\n"
                         "to rotate the camera around the character.");
       ImGui::BulletText("Use the scroll wheel to zoom in and out.");
+      ImGui::BulletText("Right click any graph to highlight the joint\n"
+                        "it belongs to.");
+#ifndef __EMSCRIPTEN__
       ImGui::BulletText("Press the P key to pause the animation.");
       ImGui::BulletText("Press the R key to reset the camera.");
+#endif
    }
 
-   if (ImGui::CollapsingHeader("Settings", nullptr))
+   if (ImGui::CollapsingHeader("Settings", nullptr, ImGuiTreeNodeFlags_DefaultOpen))
    {
       ImGui::Combo("Character", &mSelectedCharacter, mCharacterNames.c_str());
 

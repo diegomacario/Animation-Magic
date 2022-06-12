@@ -16,7 +16,7 @@ public:
 
    void setTracks(std::vector<FastTransformTrack>& tracks);
 
-   void update(float deltaTime, float playbackSpeed, const std::shared_ptr<Window>& window, bool fillEmptyTilesWithRepeatedGraphs);
+   void update(float deltaTime, float playbackSpeed, const std::shared_ptr<Window>& window, bool fillEmptyTilesWithRepeatedGraphs, bool graphsAreVisible);
 
    void render(bool fillEmptyTilesWithRepeatedGraphs);
 

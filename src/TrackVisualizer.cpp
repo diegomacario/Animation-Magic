@@ -252,7 +252,7 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
    mInitialized = true;
 }
 
-void TrackVisualizer::update(float deltaTime, float playbackSpeed, const std::shared_ptr<Window>& window, bool fillEmptyTilesWithRepeatedGraphs)
+void TrackVisualizer::update(float deltaTime, float playbackSpeed, const std::shared_ptr<Window>& window, bool fillEmptyTilesWithRepeatedGraphs, bool graphsAreVisible)
 {
    float speedFactor = (playbackSpeed == 0.0f) ? 0.0f : 1.0f + (4.0f * playbackSpeed);
    float xOffset = deltaTime * speedFactor;
@@ -326,6 +326,11 @@ void TrackVisualizer::update(float deltaTime, float playbackSpeed, const std::sh
          ++trackIndex;
          curveIndex += 4;
       }
+   }
+
+   if (!graphsAreVisible)
+   {
+      return;
    }
 
    bool rightMouseButtonIsPressed = window->isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT);
