@@ -24,11 +24,11 @@ EM_JS(float, getDevicePixelRatioEmscripten, (), {
 
 EM_JS(float, getBrowserScrollWheelSensitivity, (), {
    if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-      return -1.0;
+      return 0.5;
    }
    else
    {
-      return -0.02;
+      return 0.5;
    }
 });
 #endif
