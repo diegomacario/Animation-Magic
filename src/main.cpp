@@ -18,36 +18,10 @@ extern "C" void EMSCRIPTEN_KEEPALIVE updateWindowDimensions(int width, int heigh
 {
    game.updateWindowDimensions(width, height);
 }
-
-EM_JS(bool, runningOnFirefox, (), {
-   if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-      return true;
-   }
-   else
-   {
-      return false;
-   }
-});
-
-int runKey;
-std::string runInstruction;
 #endif
 
 int main()
 {
-#ifdef __EMSCRIPTEN__
-   if (runningOnFirefox())
-   {
-      runKey = 70; // Left control
-      runInstruction = "Hold the F key to run.";
-   }
-   else
-   {
-      runKey = 340; // Left shift
-      runInstruction = "Hold the left Shift key to run.";
-   }
-#endif
-
 #ifndef __EMSCRIPTEN__
    Game game;
 #endif

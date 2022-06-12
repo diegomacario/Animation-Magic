@@ -21,16 +21,6 @@ EM_JS(int, getCanvasHeight, (), {
 EM_JS(float, getDevicePixelRatioEmscripten, (), {
    return window.devicePixelRatio;
 });
-
-EM_JS(float, getBrowserScrollWheelSensitivity, (), {
-   if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-      return 0.25;
-   }
-   else
-   {
-      return 0.25;
-   }
-});
 #endif
 
 Window::Window(const std::string& title)
@@ -55,7 +45,7 @@ Window::Window(const std::string& title)
    , mScrollWheelMoved(false)
    , mScrollYOffset(0.0)
 #ifdef __EMSCRIPTEN__
-   , mScrollWheelSensitivity(0.0f)
+   , mScrollWheelSensitivity(0.15f)
 #endif
 #ifndef __EMSCRIPTEN__
    , mMultisampleFBO(0)
@@ -113,7 +103,6 @@ bool Window::initialize()
    mDevicePixelRatio = getDevicePixelRatioEmscripten();
    width = getCanvasWidth() * mDevicePixelRatio;
    height = getCanvasHeight() * mDevicePixelRatio;
-   mScrollWheelSensitivity = getBrowserScrollWheelSensitivity();
 #endif
 
    mWindow = glfwCreateWindow(width, height, mTitle.c_str(), nullptr, nullptr);
