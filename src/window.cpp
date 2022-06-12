@@ -212,7 +212,7 @@ bool Window::initialize()
    colors[ImGuiCol_PlotHistogram]          = ImVec4(23 / 255.0f, 185 / 255.0f, 120 / 255.0f, 1.00f);
 
 #ifdef __EMSCRIPTEN__
-   style.ScaleAllSizes(mDevicePixelRatio);
+   style->ScaleAllSizes(mDevicePixelRatio);
 #endif
 
    // Setup Platform/Renderer bindings

@@ -9,16 +9,6 @@
 #include "RearrangeBones.h"
 #include "ModelViewerState.h"
 
-ScalarFrame makeFrame(float time, float inSlope, float value, float outSlope)
-{
-   ScalarFrame frame;
-   frame.mTime        = time;
-   frame.mInSlope[0]  = inSlope;
-   frame.mValue[0]    = value;
-   frame.mOutSlope[0] = outSlope;
-   return frame;
-}
-
 ModelViewerState::ModelViewerState(const std::shared_ptr<FiniteStateMachine>& finiteStateMachine,
                                    const std::shared_ptr<Window>&             window)
    : mFSM(finiteStateMachine)
@@ -54,8 +44,6 @@ void ModelViewerState::initializeState()
                          0,   // Stag   - Idle
                          1,   // George - Hello
                          0,   // Leela  - Dance
-                         5,   // Mike   - Walk
-                         2,   // Stan   - Idle
                          5,   // Zombie - Walk
                          0 }; // Pistol - Fire
 
@@ -87,8 +75,6 @@ void ModelViewerState::initializeState()
                        Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.95f)),   // Stag
                        Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // George
                        Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // Leela
-                       Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // Mike
-                       Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.8f)),    // Stan
                        Transform(glm::vec3(0.0f, 0.0f, 0.0f), Q::quat(), glm::vec3(0.7f)),    // Zombie
                        Transform(glm::vec3(0.2f, 2.45f, 0.0f), Q::quat(), glm::vec3(0.5f)) }; // Pistol
 
@@ -97,8 +83,6 @@ void ModelViewerState::initializeState()
                           0.1f,   // Stag
                           0.1f,   // George
                           0.1f,   // Leela
-                          0.1f,   // Mike
-                          0.1f,   // Stan
                           0.1f,   // Zombie
                           0.3f }; // Pistol
 
@@ -420,12 +404,10 @@ void ModelViewerState::loadCharacters()
                                                         //"resources/models/animals/wolf.png",
                                                         "resources/models/mechs/george.png",
                                                         "resources/models/mechs/leela.png",
-                                                        "resources/models/mechs/mike.png",
-                                                        "resources/models/mechs/stan.png",
                                                         "resources/models/zombie/zombie.png",
                                                         "resources/models/pistol/pistol.png" };
 
-   std::vector<std::string> characterModelFilePaths { "resources/models/woman/woman.gltf",
+   std::vector<std::string> characterModelFilePaths { "resources/models/woman/woman.glb",
                                                       "resources/models/man/man.glb",
                                                       //"resources/models/animals/alpaca.glb",
                                                       //"resources/models/animals/deer.glb",
@@ -436,12 +418,10 @@ void ModelViewerState::loadCharacters()
                                                       //"resources/models/animals/wolf.glb",
                                                       "resources/models/mechs/george.glb",
                                                       "resources/models/mechs/leela.glb",
-                                                      "resources/models/mechs/mike.glb",
-                                                      "resources/models/mechs/stan.glb",
                                                       "resources/models/zombie/zombie.glb",
-                                                      "resources/models/pistol/pistol.gltf" };
+                                                      "resources/models/pistol/pistol.glb" };
 
-   std::vector<std::string> characterNames { "Woman", "Man", "Stag", "George", "Leela", "Mike", "Stan", "Zombie", "Pistol" };
+   std::vector<std::string> characterNames { "Woman", "Man", "Stag", "George", "Leela", "Zombie", "Pistol" };
    for (const std::string& characterName : characterNames)
    {
       mCharacterNames += characterName + '\0';
@@ -526,7 +506,7 @@ void ModelViewerState::loadGround()
    mGroundTexture = ResourceManager<Texture>().loadUnmanagedResource<TextureLoader>("resources/models/table/wooden_floor.jpg");
 
    // Load the ground
-   cgltf_data* data = LoadGLTFFile("resources/models/table/wooden_floor.gltf");
+   cgltf_data* data = LoadGLTFFile("resources/models/table/wooden_floor.glb");
    mGroundMeshes = LoadStaticMeshes(data);
    FreeGLTFFile(data);
 
