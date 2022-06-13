@@ -78,6 +78,10 @@ So if we are rendering 60 frames per second, we are basically doing the followin
 
 The character that's labelled as **Robot 1** in this project has 49 joints. Each joint has 3 position curves (a vector), 4 orientation curves (a quaternion) and 3 scale curves (a vector). That means that for every frame we are sampling `49 * (3 + 4 + 3) = 490` curves. That's a wild number of calculations, just to make a single character move.
 
+<p align="center">
+ <img width="900" alt="Robot" src="https://user-images.githubusercontent.com/8304271/173354094-6b1e8fe0-2d5c-4b93-b84f-ec030284eaa3.png">
+</p>
+
 Modern games can have dozens of characters on the screen at the same time, and each one can have thousands of joints. And they don't just sample curves, they also modify them in real-time using techniques like inverse kinematics so that characters look good when they walk on uneven ground, for example. It's truly incredible what modern animation systems are capable of doing. I hope that this project helps you appreciate that.
 
 ## Implementation details
@@ -86,5 +90,9 @@ You might be wondering why I don't include the position and scale curves of each
 
 - Displaying 10 curves (2 vectors and 1 quaternion) in each graph makes them look even more cluttered than they already do.
 - It turns out that most character animations are composed by rotating joints, not by moving or scaling them. There are exceptions to this, however. As an example, take a look at the **Reload** animation of the **Pistol** model that's included in this project. No graphs are shown in the background for that animation because none of the joints are rotating. They are only moving. If I plotted the positions of the joints instead of their orientations, we would see some nice graphs.
+
+<p align="center">
+ <img width="1274" alt="Pistol" src="https://user-images.githubusercontent.com/8304271/173354164-b49cb2ab-e296-4ac1-bf4e-9b5c2bf2e66f.png">
+</p>
 
 Also note that the speed at which the graphs move from right to left doesn't match the speed at which they are sampled. In my initial implementation I used the true sampling speed and the graphs moved dizzyingly fast, so I slowed them down considerably.
