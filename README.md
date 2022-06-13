@@ -1,5 +1,9 @@
 # Animation-Magic
 
+<p align="center">
+ <img width="900" alt="Header" src="https://user-images.githubusercontent.com/8304271/173350241-9596904e-6a70-4c40-a037-a04568775295.png">
+</p>
+
 A cool visualization of all the math that powers 3D character animations.
 
 You can run it by clicking [this](https://diegomacario.github.io/Animation-Magic) link.
@@ -26,7 +30,15 @@ An animated character consists of two things:
 - A mesh.
 - A skeleton.
 
+<p align="center">
+ <img width="900" alt="Mesh_And_Skeleton" src="https://user-images.githubusercontent.com/8304271/173347573-f9cde898-1072-44c1-ab46-9800d5677edf.png">
+</p>
+
 The mesh is what gets rendered on the screen. It's just a bunch of triangles.
+
+<p align="center">
+ <img width="900" alt="Mesh" src="https://user-images.githubusercontent.com/8304271/173348330-08991c20-9717-4c65-836b-5bf269e6e0de.png">
+</p>
 
 The skeleton is the interesting part. It consists of a set of joints (joints are represented as little green pyramids in this project). Each joint is a transform matrix, which means that it has:
 
@@ -34,9 +46,17 @@ The skeleton is the interesting part. It consists of a set of joints (joints are
 - An orientation, which is stored as a quaternion with **X**, **Y**, **Z** and **W** components.
 - A scale, which is stored as a vector with **X**, **Y** and **Z** components.
 
+<p align="center">
+ <img width="900" alt="Skeleton" src="https://user-images.githubusercontent.com/8304271/173348582-b5765a26-82a4-410a-9136-2c49aa5b6a74.png">
+</p>
+
 The joints (transform matrices) that make up the skeleton can be used to deform the mesh into a specific pose.
 
 Now imagine if the position, orientation and scale of each joint changed with time. If that was the case, each time we deformed the mesh using the skeleton we would get a different pose. And what is a sequence of poses? Well an animation, of course! It's as simple as that.
+
+<p align="center">
+ <img width="900" alt="Animation" src="https://user-images.githubusercontent.com/8304271/173349759-58d830bb-bac9-4797-ac8a-c90f3e3bfba1.png">
+</p>
 
 Now going back to the original question, the little graphs in the background of this project show how the orientation of each joint changes with time. There's one graph per joint. Remember that the orientation of each joint is stored as a quaternion, which has **X**, **Y**, **Z** and **W** components. That's why each graph has 4 curves in it:
 
@@ -44,6 +64,10 @@ Now going back to the original question, the little graphs in the background of 
 - The **orange** one corresponds to the **Y** value.
 - The **yellow** one corresponds to the **Z** value.
 - The **green** one corresponds to the **W** value.
+
+<p align="center">
+ <img width="900" alt="Graph" src="https://user-images.githubusercontent.com/8304271/173352511-453b0548-96aa-4072-ba03-01cfc40382e2.png">
+</p>
 
 So if we are rendering 60 frames per second, we are basically doing the following 60 times a second:
 
