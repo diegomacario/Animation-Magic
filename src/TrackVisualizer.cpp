@@ -202,11 +202,14 @@ void TrackVisualizer::setTracks(std::vector<FastTransformTrack>& tracks)
 
    for (int i = 0; i < 4; ++i)
    {
-      glBindVertexArray(mEmptyLinesVAO[i]);
-      glBindBuffer(GL_ARRAY_BUFFER, mEmptyLinesVBO[i]);
-      glBufferData(GL_ARRAY_BUFFER, mEmptyLines[i].size() * sizeof(glm::vec3), &mEmptyLines[i][0], GL_STATIC_DRAW);
-      glBindBuffer(GL_ARRAY_BUFFER, 0);
-      glBindVertexArray(0);
+      if (mEmptyLines[i].size() != 0)
+      {
+         glBindVertexArray(mEmptyLinesVAO[i]);
+         glBindBuffer(GL_ARRAY_BUFFER, mEmptyLinesVBO[i]);
+         glBufferData(GL_ARRAY_BUFFER, mEmptyLines[i].size() * sizeof(glm::vec3), &mEmptyLines[i][0], GL_STATIC_DRAW);
+         glBindBuffer(GL_ARRAY_BUFFER, 0);
+         glBindVertexArray(0);
+      }
    }
 
    for (int i = 0; i < mNumCurves; ++i)

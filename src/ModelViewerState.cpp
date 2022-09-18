@@ -553,7 +553,7 @@ void ModelViewerState::userInterface()
    ImGui::SetNextWindowPos(ImVec2(10.0f, 10.0f), ImGuiCond_Appearing);
 
    char title[64];
-   snprintf(title, 32, "Animation Magic (%.1f FPS)###AnimationMagic", ImGui::GetIO().Framerate);
+   snprintf(title, 64, "Animation Magic (%.1f FPS)###AnimationMagic", ImGui::GetIO().Framerate);
    ImGui::Begin(title, nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize);
 
 #ifdef __EMSCRIPTEN__
